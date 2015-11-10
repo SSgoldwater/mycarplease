@@ -29,6 +29,7 @@ body {
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-image: radial-gradient(top, 70% 80%, #8D201B 0%, #000000 100%);
+    background-image:-webkit-gradient(radial, top, bottom, from( #8D201B)), to( #000000)) !important;
     background-image:-webkit-radial-gradient(top, 70% 80%, #8D201B 0%, #000000 100%);
     background-image:-ms-radial-gradient(50% 100%, #8D201B 0%, #000000 100%);
     background-attachment:fixed;
