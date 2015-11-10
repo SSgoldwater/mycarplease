@@ -20,43 +20,35 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+html {
+  height: 100%;
+  width: 100%;
+}
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
+    background-image: radial-gradient(top, 70% 80%, #8D201B 0%, #000000 100%);
+    background-image:-webkit-radial-gradient(top, 70% 80%, #8D201B 0%, #000000 100%);
+    background-image:-ms-radial-gradient(50% 100%, #8D201B 0%, #000000 100%);
     background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
     font-size:12px;
+    color: white;
     height:100%;
     margin:0px;
-    padding:0px;
-    text-transform:uppercase;
+    padding:auto;
     width:100%;
 }
 
-/* Portrait layout (default) */
-.app {
-    background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
-    position:absolute;             /* position in the center of the screen */
-    left:50%;
-    top:50%;
-    height:50px;                   /* text area height */
-    width:225px;                   /* text area width */
-    text-align:center;
-    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
-    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
-                                   /* offset horizontal: half of text area width */
+.app-home {
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+  width: 80%;
+  height: 80%;
+  margin: auto;
+  margin-top: 10%;
+  text-align: center;
 }
 
 /* Landscape layout (with min-width) */
@@ -70,12 +62,47 @@ body {
 }
 
 h1 {
-    font-size:24px;
-    font-weight:normal;
-    margin:0px;
+    font-size:36px;
+    font-weight: normal;
+    text-shadow: 0px 5px 5px black;
+    margin:30px;
     overflow:visible;
     padding:0px;
     text-align:center;
+    top: 10px:
+    
+}
+
+h3 { 
+  text-align: center;
+  font-weight: normal;
+  text-shadow: 0px 2px 2px black;
+}
+
+.clock-in-field-group {
+  margin: 40px auto;
+}
+
+.clock-in-field {
+  width: 70%;
+  border: none;
+  height: 30px;
+  margin: 15px;
+  border-radius: 5px;
+}
+
+.clock-in-button {
+  background-image: linear-gradient(-180deg, rgba(255,255,255,0.65) 0%, #601511 60%);
+  box-shadow: 0px 42px 42px 30px rgba(0,0,0,0.46);
+  border-radius: 16px;
+  border: none;
+  font-size: 20px;
+  font-weight: normal;
+  color: white;
+  text-shadow: 0px 2px 5px black;
+  width: 50%;
+  height: 50px;
+  margin-top: 55px;
 }
 
 .event {
