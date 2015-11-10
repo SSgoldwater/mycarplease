@@ -1,0 +1,42 @@
+.splash-wrap {
+  text-align: center;
+  
+  .page-head {
+    text-align: left;
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 100px;
+  }
+
+  h2 {
+    font-size: 80px;
+    line-height: 200%;
+    margin: 200px 5% 5%;
+    text-shadow: 0px 10px 30px black;
+  }
+
+  h3 { 
+    margin: 30px;
+    font-size: 50px;
+    text-shadow: 0px 5px 10px black;
+  }
+
+  a {
+    color: white;
+  }
+  
+  .btn {
+    background-image: linear-gradient(-180deg, rgba(255,255,255,0.65) 0%, #601511 60%);
+    box-shadow: 0px 42px 42px 30px rgba(0,0,0,0.46);
+    border-radius: 16px;
+    width: 70%;
+    padding: 20px 0px 30px 0px;
+    margin-top: 100px;
+  }
+  
+  p {
+    margin-top: 50%;
+  }
+}
