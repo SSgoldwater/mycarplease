@@ -1,4 +1,3 @@
 class Location < ActiveRecord::Base
-  has_many :vehicles
-  has_many :employees
+  belongs_to :locationable, polymorphic: true
 end

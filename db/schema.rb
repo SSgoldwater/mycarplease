@@ -22,15 +22,17 @@ ActiveRecord::Schema.define(version: 20151111160505) do
     t.string  "email"
     t.string  "password_digest"
     t.integer "status"
-    t.integer "location_id_id"
+    t.integer "location_id"
   end
 
-  add_index "employees", ["location_id_id"], name: "index_employees_on_location_id_id", using: :btree
+  add_index "employees", ["location_id"], name: "index_employees_on_location_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "locationable_id"
+    t.string   "locationable_type"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "vehicles", force: :cascade do |t|
