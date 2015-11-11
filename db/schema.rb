@@ -37,8 +37,9 @@ ActiveRecord::Schema.define(version: 20151111160505) do
 
   create_table "vehicles", force: :cascade do |t|
     t.string  "color"
-    t.integer "class"
+    t.integer "style"
     t.integer "ticket_no"
+    t.string  "space"
     t.integer "location_id"
   end
 
