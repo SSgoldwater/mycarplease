@@ -49,3 +49,17 @@ var app = {
 };
 
 app.initialize();
+
+$(document).ready(function() {
+  $('.clock-in-button').on('click', function() {
+    $.ajax({
+      type: 'POST',
+      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
+      data: { location: $('.employee-location-selector').children(':checked').text(), 
+              email:    $('.clock-in-field.email').val(),
+              password: $('.clock-in-field.password').val()
+      }, 
+    success: console.log('success!')
+    })
+  })
+});
