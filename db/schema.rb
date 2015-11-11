@@ -17,10 +17,11 @@ ActiveRecord::Schema.define(version: 20151108204210) do
   enable_extension "plpgsql"
 
   create_table "employees", force: :cascade do |t|
-    t.string "first_name"
-    t.string "last_name"
-    t.string "email"
-    t.string "password_digest"
+    t.string  "first_name"
+    t.string  "last_name"
+    t.string  "email"
+    t.string  "password_digest"
+    t.integer "status"
   end
 
 end
