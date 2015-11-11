@@ -5,6 +5,7 @@ class CreateEmployees < ActiveRecord::Migration
       t.string :last_name
       t.string :email
       t.string :password_digest
+      t.integer :location_id
       t.integer :status
     end
   end
