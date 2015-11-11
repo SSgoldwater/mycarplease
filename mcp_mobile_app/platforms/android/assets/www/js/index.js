@@ -18,9 +18,9 @@
  */
     $(document).bind("mobileinit", function() {
       $.mobile.allowCrossDomainPages = true;
+      $.support.cors = true
     });
 
-    $.support.cors = true
 var app = {
     // Application Constructor
     initialize: function() {
@@ -61,11 +61,15 @@ $(document).ready(function() {
     $.ajax({
       type: 'POST',
       url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
+      dataType: "json",
       data: { location: $('.employee-location-selector').children(':checked').text(), 
               email:    $('.clock-in-field.email').val(),
               password: $('.clock-in-field.password').val()
       }, 
-    success: console.log('success!')
+
+      success: function(data) {
+	console.log(data["first_name"])
+      }
     })
   })
 });
