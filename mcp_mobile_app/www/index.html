@@ -1,23 +1,5 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html ng-app>
+<html>
     <head>
         <!--
         Customize this policy to fit your own app's needs. For more guidance, see:
@@ -32,11 +14,10 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
         <title>MyCarPlease</title>
     </head>
-    <body ng-app="myCarPlease">
+    <body>
       <div class="app-home">
 	<h1 class="app-title">MyCarPlease</h1>
 	<h3>Valet shift clock-in</h3>
@@ -54,5 +35,23 @@
       </div>
       <script type="text/javascript" src="cordova.js"></script>
       <script type="text/javascript" src="js/index.js"></script>
+      <div class="app-dash">
+	<div class="dash-head">
+	  <h3 class="employee-name"></h3>
+	  <button class="logout-button">Logout</button>
+	</div>
+	<div class="location-name"></div>
+	<div class="notifications"></div>
+	<div class="vehicles-in-transit"></div>
+	<h3>New Vehicle</h3>
+	<div class="new-vehicle-form">
+	  <label>Ticket:<input type="text"></label>
+	  <label>Space:<input type="text"></label>
+	  <button class="new-car">Parked</button>
+	</div>
+	<div class="vehicle-count"></div>
+	<div class="all-vehicles"></div>
+	<h1>MCP</h1>
+      </div>
     </body>
 </html>
