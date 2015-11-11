@@ -42,7 +42,7 @@ $(document).ready(function() {
   $('.clock-in-button').on('click', function() {
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
+      url: 'http://localhost:3000/api/v1/clockin',
       dataType: "json",
       data: { location: $('.employee-location-selector').children(':checked').text(), 
               email:    $('.clock-in-field.email').val(),
@@ -53,12 +53,17 @@ $(document).ready(function() {
         $('.app-home').hide(),	  
         $('.app-dash').show(),
         renderEmployeeName(data),
-	console.log(data["first_name"])
+      	renderShiftLocation(data),
+	console.log(data)
       }
     })
   })
 });
 
 renderEmployeeName = function(data) {
-  $('.employee-name').text(data["first_name"])
+  $('.employee-name').text(data["employee"]["first_name"])
+};
+
+renderShiftLocation = function(data) {
+  $('.location-name').text(data["location"]["name"])
 };
