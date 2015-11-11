@@ -16,6 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+    $(document).bind("mobileinit", function() {
+      $.mobile.allowCrossDomainPages = true;
+    });
+
+    $.support.cors = true
 var app = {
     // Application Constructor
     initialize: function() {
@@ -46,6 +51,21 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
+
 };
 
 app.initialize();
+
+$(document).ready(function() {
+  $('.clock-in-button').on('click', function() {
+    $.ajax({
+      type: 'POST',
+      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
+      data: { location: $('.employee-location-selector').children(':checked').text(), 
+              email:    $('.clock-in-field.email').val(),
+              password: $('.clock-in-field.password').val()
+      }, 
+    success: console.log('success!')
+    })
+  })
+});

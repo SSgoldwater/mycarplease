@@ -16,6 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+    $(document).bind("mobileinit", function() {
+      $.mobile.allowCrossDomainPages = true;
+      $.support.cors = true
+    });
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -46,6 +51,7 @@ var app = {
 
         console.log('Received Event: ' + id);
     }
+
 };
 
 app.initialize();
@@ -59,7 +65,10 @@ $(document).ready(function() {
               email:    $('.clock-in-field.email').val(),
               password: $('.clock-in-field.password').val()
       }, 
-    success: console.log('success!')
+
+      success: function(data) {
+	console.log(data)
+      }
     })
   })
 });
