@@ -1,5 +1,5 @@
 class Employee < ActiveRecord::Base
   enum status: [ :active, :inactive ]
-  has_one :location, as: :locationable
+  belongs_to :location
   has_secure_password
 end
