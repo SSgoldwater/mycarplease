@@ -97,6 +97,10 @@ h3 {
   height: 1em;
 }
 
+.dash-head {
+  height: 1em;
+}
+
 .employee-name {
   float: left;
   margin: .5em;
@@ -161,6 +165,12 @@ button {
   height: 15em;
   margin: 2em 5% .15em 5%;
   overflow:auto;
+}
+
+h2 {
+  font-weight: normal;
+  text-align: center;
+  margin-top: .5em;
 }
 
 .event {
