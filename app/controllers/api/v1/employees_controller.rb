@@ -4,8 +4,7 @@ class Api::V1::EmployeesController < ApplicationController
   def clockin
     employee = Employee.find_by(email: params["email"])
     if employee.authenticate(params["password"])
-      employee.status = "active"
-      employee.save
+      employee.active!
       respond_with employee
     end
   end
