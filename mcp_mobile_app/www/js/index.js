@@ -87,7 +87,7 @@ $(document).ready(function() {
     $('.app-home').show();
   });
 
-  pollData()
+  /*pollData()*/
 
 });
 
@@ -100,25 +100,44 @@ renderShiftLocation = function(data) {
 };
 
 renderVehicle = function(vehicle) {
-  $('.all-vehicles-table').append(
-    "<tr class=\"vehicle\" data-id=" 
-    + vehicle["id"] 
-    + "><td><h3>#" 
-    + vehicle["ticket_no"] 
-    + "</h3></td><td><h3>"
-    + vehicle["space"] 
-    + "</h3></td><td><h3>"
-    + vehicle["color"] 
-    + " "
-    + vehicle["style"] 
-    +"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
+  if (vehicle["status"] == "parked") {
+    $('.all-vehicles-table').append(
+      "<tr class=\"vehicle\" data-id=" 
+      + vehicle["id"] 
+      + "><td><h3>#" 
+      + vehicle["ticket_no"] 
+      + "</h3></td><td><h3>"
+      + vehicle["space"] 
+      + "</h3></td><td><h3>"
+      + vehicle["color"] 
+      + " "
+      + vehicle["style"] 
+      +"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
     )
+  } 
+  else if (vehicle["status"] == "transit") {
+    $('.transit-vehicles-table').append(
+      "<tr class=\"vehicle\" data-id=" 
+      + vehicle["id"] 
+      + "><td><h3>#" 
+      + vehicle["ticket_no"] 
+      + "</h3></td><td><h3>"
+      + vehicle["space"] 
+      + "</h3></td><td><h3>"
+      + vehicle["color"] 
+      + " "
+      + vehicle["style"] 
+      +"</h3></td><td class=\"return-button\"><button>Return</button></td></tr>"
+    )
+  }
 };
+
 /*
 function pollData() {
   setInterval(fetchVehicles, 5000)
 }
 */
+
 function fetchVehicles() {
   var newestVehicleID = parseInt($('.vehicle').last().attr('data-id'));
   var account         = $('.location-name').text();
