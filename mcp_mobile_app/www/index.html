@@ -33,12 +33,10 @@
 	  <input class="clock-in-button" type="button" value="Clock In"></input>
 	</div>
       </div>
-      <script type="text/javascript" src="cordova.js"></script>
-      <script type="text/javascript" src="js/index.js"></script>
       <div class="app-dash">
 	<div class="dash-head">
 	  <h3 class="employee-name"></h3>
-	  <button class="logout-button">Logout</button>
+	  <button class="clockout-button">Clockout</button>
 	</div>
 	<h1 class="location-name"></h1>
 	<div class="notifications">
@@ -53,10 +51,16 @@
 	  <button class="new-car">Parked</button>
 	</div>
 	<div class="vehicle-count">
-	  <h3>0 vehicles total</h3>
+	  <h3></h3>
 	</div>
-	<div class="all-vehicles"></div>
+	<div class="all-vehicles">
+	  <table>
+	    <tbody class="all-vehicles-table"></tbody>
+	  </table>
+	</div>
 	<h2>MCP</h2>
       </div>
+      <script type="text/javascript" src="cordova.js"></script>
+      <script type="text/javascript" src="js/index.js"></script>
     </body>
 </html>

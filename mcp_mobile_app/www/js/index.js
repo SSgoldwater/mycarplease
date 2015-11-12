@@ -54,11 +54,18 @@ $(document).ready(function() {
         $('.app-dash').show(),
         renderEmployeeName(data),
       	renderShiftLocation(data),
-	console.log(data)
+        renderVehicles(data)
       }
     })
-  })
+  });
+
+  $('.clockout-button').on('click', function() {
+    $('.app-dash').hide();
+    $('.app-home').show();
+  });
 });
+
+
 
 renderEmployeeName = function(data) {
   $('.employee-name').text(data["employee"]["first_name"])
@@ -67,3 +74,28 @@ renderEmployeeName = function(data) {
 renderShiftLocation = function(data) {
   $('.location-name').text(data["location"]["name"])
 };
+
+renderVehicles = function(data) {
+  $('.vehicle-count').children('h3').text(data["vehicles"].length + " vehicles total")
+  console.log(data);
+  $.each(data["vehicles"], function(vehicle, data) {
+    console.log(vehicle);
+    renderVehicle(data);
+  })
+};
+
+renderVehicle = function(vehicle) {
+  $('.all-vehicles-table').append(
+    "<tr data-id=" 
+    + vehicle["id"] 
+    + "><td><h3>#" 
+    + vehicle["ticket_no"] 
+    + "</h3></td><td><h3>"
+    + vehicle["space"] 
+    + "</h3></td><td><h3>"
+    + vehicle["color"] 
+    + " "
+    + vehicle["class"] 
+    +"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
+    )
+}
