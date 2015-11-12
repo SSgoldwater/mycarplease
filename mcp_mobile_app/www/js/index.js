@@ -42,7 +42,7 @@ $(document).ready(function() {
   $('.clock-in-button').on('click', function() {
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/api/v1/clockin',
+      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
       dataType: "json",
       data: { location: $('.employee-location-selector').children(':checked').text(), 
               email:    $('.clock-in-field.email').val(),
