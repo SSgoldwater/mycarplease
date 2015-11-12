@@ -25,8 +25,9 @@ locations[1].vehicles = Vehicle.create([
 ]) 
  
 locations[2].vehicles = Vehicle.create([
-  { color: "blue", style: "coupe", ticket_no: 521, space: "3A4" },
-  { color: "green", style: "sedan", ticket_no: 522, space: "4B12" },
-  { color: "yellow", style: "truck", ticket_no: 523, space: "vip" },
-  { color: "silver", style: "sedan", ticket_no: 528, space: "3B7" },
+  { color: "blue", style: "coupe", ticket_no: 521, space: "A8" },
+  { color: "green", style: "sedan", ticket_no: 522, space: "C4" },
+  { color: "yellow", style: "truck", ticket_no: 523, space: "tB3" },
+  { color: "silver", style: "sedan", ticket_no: 528, space: "B1" },
+  { color: "green", style: "sedan", ticket_no: 529, space: "B5" },
 ]) 
