@@ -1,6 +1,6 @@
 class Api::V1::EmployeesController < ApplicationController
+  respond_to :json, :xml
   skip_before_filter :verify_authenticity_token
-
   before_filter :cors_preflight_check
   after_filter :cors_set_access_control_headers
 
@@ -22,13 +22,13 @@ class Api::V1::EmployeesController < ApplicationController
     end
   end
 
-  respond_to :json, :xml
-
   def clockin
     employee = Employee.find_by(email: params["email"])
     if employee.authenticate(params["password"])
       employee.active!
-      respond_with employee
+      employee.location = Location.find_by(name: params["location"])
+      @response = { employee: employee, location: employee.location, vehicles: employee.location.vehicles }
+      respond_with @response, location: employee_url
     end
   end
   

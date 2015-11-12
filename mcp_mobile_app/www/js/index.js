@@ -1,26 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-    $(document).bind("mobileinit", function() {
-      $.mobile.allowCrossDomainPages = true;
-      $.support.cors = true
-    });
-
 var app = {
     // Application Constructor
     initialize: function() {
@@ -54,6 +31,11 @@ var app = {
 
 };
 
+$(document).bind("mobileinit", function() {
+  $.mobile.allowCrossDomainPages = true;
+  $.support.cors = true
+});
+
 app.initialize();
 
 $(document).ready(function() {
@@ -68,8 +50,52 @@ $(document).ready(function() {
       }, 
 
       success: function(data) {
-	console.log(data["first_name"])
+        $('.app-home').hide(),	  
+        $('.app-dash').show(),
+        renderEmployeeName(data),
+      	renderShiftLocation(data),
+        renderVehicles(data)
       }
     })
-  })
+  });
+
+  $('.clockout-button').on('click', function() {
+    $('.app-dash').hide();
+    $('.app-home').show();
+  });
 });
+
+
+
+renderEmployeeName = function(data) {
+  $('.employee-name').text(data["employee"]["first_name"])
+};
+
+renderShiftLocation = function(data) {
+  $('.location-name').text(data["location"]["name"])
+};
+
+renderVehicles = function(data) {
+  $('.vehicle-count').children('h3').text(data["vehicles"].length + " vehicles total")
+  console.log(data);
+  $.each(data["vehicles"], function(vehicle, data) {
+    console.log(vehicle);
+    renderVehicle(data);
+  })
+};
+
+renderVehicle = function(vehicle) {
+  $('.all-vehicles-table').append(
+    "<tr data-id=" 
+    + vehicle["id"] 
+    + "><td><h3>#" 
+    + vehicle["ticket_no"] 
+    + "</h3></td><td><h3>"
+    + vehicle["space"] 
+    + "</h3></td><td><h3>"
+    + vehicle["color"] 
+    + " "
+    + vehicle["style"] 
+    +"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
+    )
+}
