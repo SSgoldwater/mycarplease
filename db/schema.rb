@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20151111155118) do
     t.integer "ticket_no"
     t.string  "space"
     t.integer "location_id"
+    t.string  "status"
   end
 
 end
