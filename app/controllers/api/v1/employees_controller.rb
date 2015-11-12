@@ -26,8 +26,13 @@ class Api::V1::EmployeesController < ApplicationController
     employee = Employee.find_by(email: params["email"])
     if employee.authenticate(params["password"])
       employee.active!
-      employee.location = Location.find_by(name: params["location"])
-      @response = { employee: employee, location: employee.location, vehicles: employee.location.vehicles }
+      location = employee.clockin_location(params)
+      
+      @response = { employee: employee, 
+		    location: location, 
+		    vehicles: location.vehicles 
+      }
+
       respond_with @response, location: employee_url
     end
   end
