@@ -95,7 +95,7 @@ renderVehicle = function(vehicle) {
     + "</h3></td><td><h3>"
     + vehicle["color"] 
     + " "
-    + vehicle["class"] 
+    + vehicle["style"] 
     +"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
     )
 }
