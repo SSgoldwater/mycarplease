@@ -42,7 +42,7 @@ $(document).ready(function() {
   $('.clock-in-button').on('click', function() {
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/api/v1/clockin',
+      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
       dataType: "json",
       data: { account: $('.employee-location-selector').children(':checked').text(), 
               email:    $('.clock-in-field.email').val(),
@@ -73,7 +73,7 @@ $(document).ready(function() {
     console.log(vehicle_params);
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/api/v1/vehicles.json',
+      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
         renderVehicle(vehicle)
@@ -143,7 +143,7 @@ function fetchVehicles() {
   var account         = $('.location-name').text();
   $.ajax({
     type: 'GET',
-    url:  'http://localhost:3000/api/v1/vehicles.json',
+    url:  'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
     data: { account: account },
     success: function(vehicles) {
       console.log(vehicles);

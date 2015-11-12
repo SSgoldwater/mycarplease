@@ -139,6 +139,15 @@ button {
   overflow:auto;
 }
 
+.return-button {
+  text-align: right;
+}
+
+.return-button button {
+  height: 2.5em;
+}
+
+
 .new-vehicle-form {
   text-align: center;
 }
