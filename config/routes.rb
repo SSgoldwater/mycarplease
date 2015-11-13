@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root 'welcome#index'
   
   get 'employee', to: 'welcome#employee'
+
+  resources :customers, only: [:new, :create, :update]
   resources :employees, only: [:show]
 
   namespace :api do
