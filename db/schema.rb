@@ -20,12 +20,13 @@ ActiveRecord::Schema.define(version: 20151113010735) do
     t.string   "phone"
     t.string   "name"
     t.integer  "ticket_no"
-    t.integer  "location_id_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.integer  "text_confirmation"
+    t.integer  "location_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
-  add_index "customers", ["location_id_id"], name: "index_customers_on_location_id_id", using: :btree
+  add_index "customers", ["location_id"], name: "index_customers_on_location_id", using: :btree
 
   create_table "employees", force: :cascade do |t|
     t.string  "first_name"

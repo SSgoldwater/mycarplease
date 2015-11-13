@@ -4,7 +4,8 @@ class CreateCustomers < ActiveRecord::Migration
       t.string :phone
       t.string :name
       t.integer :ticket_no
-      t.references :location_id, index: true
+      t.integer :text_confirmation
+      t.references :location, index: true
 
       t.timestamps null: false
     end
