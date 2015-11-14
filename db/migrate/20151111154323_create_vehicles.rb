@@ -7,6 +7,7 @@ class CreateVehicles < ActiveRecord::Migration
       t.string  :space
       t.integer :location_id
       t.string :status
+      t.integer :customer_id
     end
   end
 end
