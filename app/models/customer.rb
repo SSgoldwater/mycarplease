@@ -10,8 +10,15 @@ class Customer < ActiveRecord::Base
     Messenger.send_text(phone_number, code)
   end
 
+  def send_quote(quote)
+    binding.pry
+    puts quote
+  end
+
   def verify(customer, customer_params)
-    if customer.text_confirmation == customer_params[:text_confirmation] then true
+    if customer.text_confirmation == customer_params[:text_confirmation] 
+      true
+    end
   end
 
 end
