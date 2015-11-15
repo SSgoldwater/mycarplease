@@ -3,20 +3,19 @@ class Customer < ActiveRecord::Base
   has_one    :vehicle
 
   def send_code(phone_number)
-    code = "123 456"
+    code = "123"
     self.text_confirmation = code
-    binding.pry
     self.save
-    Messenger.send_text(phone_number, code)
+    Messenger.send_code(phone_number, code)
   end
 
   def send_quote(quote)
-    binding.pry
+    Messenger.send_quote(self.phone, quote)
     puts quote
   end
 
   def verify(customer, customer_params)
-    if customer.text_confirmation == customer_params[:text_confirmation] 
+    if customer.text_confirmation == customer_params[:text_confirmation].to_i
       true
     end
   end
