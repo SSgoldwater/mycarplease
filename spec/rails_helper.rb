@@ -17,12 +17,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
-  config.around(:each) do |example|
-    DatabaseCleaner.cleaning do
-      example.run
-    end
-  end
-
   config.include FactoryGirl::Syntax::Methods
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
