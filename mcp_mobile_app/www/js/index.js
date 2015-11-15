@@ -42,13 +42,12 @@ $(document).ready(function() {
   $('.clock-in-button').on('click', function() {
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
+      url: 'http://localhost:3000/api/v1/clockin',
       dataType: "json",
       data: { account: $('.employee-location-selector').children(':checked').text(), 
               email:    $('.clock-in-field.email').val(),
               password: $('.clock-in-field.password').val()
       }, 
-
       success: function(data) {
         $('.app-home').hide(),	  
         $('.app-dash').show(),
@@ -73,13 +72,12 @@ $(document).ready(function() {
     console.log(vehicle_params);
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+      url: 'http://localhost:3000/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
         renderVehicle(vehicle)
       }
     })
-
   });
 
   $('.clockout-button').on('click', function() {
@@ -87,7 +85,38 @@ $(document).ready(function() {
     $('.app-home').show();
   });
 
-  /*pollData()*/
+  $('.all-vehicles-table').on('click', '.pull-up-button button', function() {
+    console.log('button pressed')
+    var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/pull_up.json',
+      success: function(vehicle) {
+	renderVehicle(vehicle)
+      } 
+    })
+  });
+
+
+  $('.transit-vehicles-table').on('click', '.quote-button', function() {
+    var quote = $(this).siblings().children('.quote-time').val()
+    var vehicleId = $(this).parents('.quote-vehicle').attr('data-id')
+    var ticket = $(this).siblings().first().children('h3').text().replace('#','')
+    console.log(quote)
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/give_quote.json',
+      data: { quote: quote,
+              ticket: ticket
+      },
+      success: function(vehicle) {
+	console.log(vehicle)
+      } 
+    })
+
+  });
+
+  pollData()
 
 });
 
@@ -101,57 +130,93 @@ renderShiftLocation = function(data) {
 
 renderVehicle = function(vehicle) {
   if (vehicle["status"] == "parked") {
-    $('.all-vehicles-table').append(
-      "<tr class=\"vehicle\" data-id=" 
-      + vehicle["id"] 
-      + "><td><h3>#" 
-      + vehicle["ticket_no"] 
-      + "</h3></td><td><h3>"
-      + vehicle["space"] 
-      + "</h3></td><td><h3>"
-      + vehicle["color"] 
-      + " "
-      + vehicle["style"] 
-      +"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
-    )
+    if( $('.all-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0 ) {
+      $('.all-vehicles-table').append(
+	"<tr class=\"parked-vehicle\" data-id=" 
+	+ vehicle["id"] 
+	+ "><td><h3>#" 
+	+ vehicle["ticket_no"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["space"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["color"] 
+	+ " "
+	+ vehicle["style"] 
+	+"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
+      )
+    }
   } 
+  else if (vehicle["status"] == "needs_quote") {
+    $('.parked-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
+    
+    if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
+      $('.transit-vehicles-table').prepend(
+	"<tr class=\"quote-vehicle vehicle\" data-id=" 
+	+ vehicle["id"] 
+	+ "><td><h3>#" 
+	+ vehicle["ticket_no"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["space"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["color"] 
+	+ " "
+	+ vehicle["style"] 
+	+"</h3></td><td><input class=\"quote-time\" type=\"text\"></td><td class=\"quote-button\"><button>Quote</button></td></tr>"
+      )
+    }
+  }
   else if (vehicle["status"] == "transit") {
-    $('.transit-vehicles-table').append(
-      "<tr class=\"vehicle\" data-id=" 
-      + vehicle["id"] 
-      + "><td><h3>#" 
-      + vehicle["ticket_no"] 
-      + "</h3></td><td><h3>"
-      + vehicle["space"] 
-      + "</h3></td><td><h3>"
-      + vehicle["color"] 
-      + " "
-      + vehicle["style"] 
-      +"</h3></td><td class=\"return-button\"><button>Return</button></td></tr>"
-    )
+    $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
+    if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
+      $('[data-id=\"' + vehicle.id + '\"]').remove();
+      $('.transit-vehicles-table').append(
+	"<tr class=\"transit-vehicle vehicle\" data-id=" 
+	+ vehicle["id"] 
+	+ "><td><h3>#" 
+	+ vehicle["ticket_no"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["space"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["color"] 
+	+ " "
+	+ vehicle["style"] 
+	+"</h3></td><td class=\"return-button\"><button>Return</button></td></tr>"
+      )
+    }
   }
 };
 
-/*
+
 function pollData() {
   setInterval(fetchVehicles, 5000)
 }
-*/
+
 
 function fetchVehicles() {
   var newestVehicleID = parseInt($('.vehicle').last().attr('data-id'));
   var account         = $('.location-name').text();
   $.ajax({
     type: 'GET',
-    url:  'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+    url:  'http://localhost:3000/api/v1/vehicles.json',
     data: { account: account },
     success: function(vehicles) {
       console.log(vehicles);
-      $('.vehicle-count').children('h3').text(vehicles.length + " vehicles total")
+      var needsQuoteCount = vehicles.filter(function(vehicle) {
+	return vehicle["status"] =="needs_quote"
+      })
+      var inTransitCount = vehicles.filter(function(vehicle) {
+	return vehicle["status"] =="transit"
+      })
+      var parkedCount = vehicles.filter(function(vehicle) {
+	return vehicle["status"] =="parked"
+      })
+
+      $('.needs-quote-count').text(needsQuoteCount.length + " customers waiting for a quote.")
+      $('.in-transit-count').text(inTransitCount.length + " vehicles in transit")
+      $('.parked-vehicles').text(parkedCount.length + " vehicles parked")
+
       $.each(vehicles, function(index, vehicle) {
-	if(isNaN(newestVehicleID) || vehicle.id > newestVehicleID) {
-	  renderVehicle(vehicle)
-	}
+	renderVehicle(vehicle)
       })
     },
   })

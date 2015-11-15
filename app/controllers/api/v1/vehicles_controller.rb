@@ -11,4 +11,22 @@ class Api::V1::VehiclesController < ApiController
     respond_with new_vehicle, location: root_url
   end
 
+  def pull_up
+    vehicle = Vehicle.find(params["id"])
+    vehicle.status = "transit"
+    vehicle.save
+
+    respond_with vehicle, location: root_url
+  end
+
+  def give_quote
+    vehicle = Vehicle.find(params["id"])
+    customer = Customer.find_by(ticket_no: params["ticket"])
+    customer.send_quote(params["quote"])
+    vehicle.status = "transit"
+    vehicle.save
+
+    respond_with vehicle, location: root_url
+  end
+
 end
