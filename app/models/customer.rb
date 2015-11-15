@@ -1,6 +1,7 @@
 class Customer < ActiveRecord::Base
   belongs_to :location
   has_one    :vehicle
+  validates  :phone, length: { is: 10 }
 
   def send_code(phone_number)
     code = "123"
