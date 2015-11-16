@@ -12,7 +12,6 @@ class Customer < ActiveRecord::Base
 
   def send_quote(quote)
     Messenger.send_quote(self.phone, quote)
-    puts quote
   end
 
   def verify(customer, customer_params)
