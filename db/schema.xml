@@ -37,7 +37,7 @@
       <type label="SET" length="1" sql="SET" quote=""/>
       <type label="Bit" length="0" sql="bit" quote=""/>
     </group>
-    </datatypes><table x="774" y="192" name="employees">
+    </datatypes><table x="830" y="381" name="employees">
     <row name="id" null="1" autoincrement="1">
       <datatype>INTEGER</datatype>
       <default>NULL</default></row>
@@ -53,11 +53,18 @@
     <row name="password_digest" null="1" autoincrement="0">
       <datatype>MEDIUMTEXT</datatype>
       <default>NULL</default></row>
+    <row name="status" null="1" autoincrement="0">
+      <datatype>ENUM</datatype>
+      <default>NULL</default></row>
+    <row name="location_id" null="1" autoincrement="0">
+      <datatype>INTEGER</datatype>
+      <default>NULL</default><relation table="locations" row="id" />
+    </row>
     <key type="PRIMARY" name="">
       <part>id</part>
     </key>
   </table>
-  <table x="207" y="205" name="customers">
+  <table x="206" y="198" name="customers">
     <row name="id" null="1" autoincrement="1">
       <datatype>INTEGER</datatype>
       <default>NULL</default></row>
@@ -75,37 +82,39 @@
       <part>id</part>
     </key>
   </table>
-  <table x="452" y="65" name="vehicle_transactions">
-    <row name="id" null="1" autoincrement="1">
-      <datatype>INTEGER</datatype>
-      <default>NULL</default></row>
-    <row name="customer_id" null="1" autoincrement="0">
-      <datatype>INTEGER</datatype>
-      <default>NULL</default><relation table="customers" row="id" />
-    </row>
-    <row name="employee_id" null="1" autoincrement="0">
-      <datatype>INTEGER</datatype>
-      <default>NULL</default><relation table="employees" row="id" />
-    </row>
-    <row name="status" null="1" autoincrement="0">
-      <datatype>INTEGER</datatype>
-      <default>NULL</default></row>
-    <row name="created_at" null="1" autoincrement="0">
-      <datatype>TIMESTAMP</datatype>
-      <default>NULL</default></row>
-    <row name="updated_at" null="1" autoincrement="0">
-      <datatype>TIMESTAMP</datatype>
-      <default>NULL</default></row>
-    <key type="PRIMARY" name="">
-      <part>id</part>
-    </key>
-  </table>
-  <table x="488" y="347" name="locations">
+  <table x="511" y="220" name="locations">
     <row name="id" null="1" autoincrement="1">
       <datatype>INTEGER</datatype>
       <default>NULL</default></row>
     <row name="name" null="1" autoincrement="0">
       <datatype>MEDIUMTEXT</datatype>
+      <default>NULL</default></row>
+    <key type="PRIMARY" name="">
+      <part>id</part>
+    </key>
+  </table>
+  <table x="819" y="100" name="vehicles">
+    <row name="id" null="1" autoincrement="1">
+      <datatype>INTEGER</datatype>
+      <default>NULL</default></row>
+    <row name="color" null="1" autoincrement="0">
+      <datatype>INTEGER</datatype>
+      <default>NULL</default></row>
+    <row name="class" null="1" autoincrement="0">
+      <datatype>ENUM</datatype>
+      <default>NULL</default></row>
+    <row name="ticket_no" null="1" autoincrement="0">
+      <datatype>INTEGER</datatype>
+      <default>NULL</default></row>
+    <row name="locations_id" null="1" autoincrement="0">
+      <datatype>INTEGER</datatype>
+      <default>NULL</default><relation table="locations" row="id" />
+    </row>
+    <row name="space" null="1" autoincrement="0">
+      <datatype>MEDIUMTEXT</datatype>
+      <default>NULL</default></row>
+    <row name="status" null="1" autoincrement="0">
+      <datatype>ENUM</datatype>
       <default>NULL</default></row>
     <key type="PRIMARY" name="">
       <part>id</part>
