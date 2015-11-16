@@ -206,31 +206,33 @@ function pollData() {
 
 
 function fetchVehicles() {
-  var newestVehicleID = parseInt($('.vehicle').last().attr('data-id'));
-  var account         = $('.location-name').text();
-  $.ajax({
-    type: 'GET',
-    url:  'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
-    data: { account: account },
-    success: function(vehicles) {
-      console.log(vehicles);
-      var needsQuoteCount = vehicles.filter(function(vehicle) {
-	return vehicle["status"] =="needs_quote"
-      })
-      var inTransitCount = vehicles.filter(function(vehicle) {
-	return vehicle["status"] =="transit"
-      })
-      var parkedCount = vehicles.filter(function(vehicle) {
-	return vehicle["status"] =="parked"
-      })
+  if ($('.app-home').css('display') == 'none') {
+    var newestVehicleID = parseInt($('.vehicle').last().attr('data-id'));
+    var account         = $('.location-name').text();
+    $.ajax({
+      type: 'GET',
+      url:  'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+      data: { account: account },
+      success: function(vehicles) {
+	console.log(vehicles);
+	var needsQuoteCount = vehicles.filter(function(vehicle) {
+	  return vehicle["status"] =="needs_quote"
+	})
+	var inTransitCount = vehicles.filter(function(vehicle) {
+	  return vehicle["status"] =="transit"
+	})
+	var parkedCount = vehicles.filter(function(vehicle) {
+	  return vehicle["status"] =="parked"
+	})
 
-      $('.needs-quote-count').text(needsQuoteCount.length + " customers waiting for a quote.")
-      $('.in-transit-count').text(inTransitCount.length + " vehicles in transit")
-      $('.parked-vehicles').text(parkedCount.length + " vehicles parked")
+	$('.needs-quote-count').text(needsQuoteCount.length + " customers waiting for a quote.")
+	$('.in-transit-count').text(inTransitCount.length + " vehicles in transit")
+	$('.parked-vehicles').text(parkedCount.length + " vehicles parked")
 
-      $.each(vehicles, function(index, vehicle) {
-	renderVehicle(vehicle)
-      })
-    },
-  })
+	$.each(vehicles, function(index, vehicle) {
+	  renderVehicle(vehicle)
+	})
+      },
+    })
+  }
 }
