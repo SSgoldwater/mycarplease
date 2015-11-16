@@ -4,7 +4,7 @@ class Customer < ActiveRecord::Base
   validates  :phone, length: { is: 10 }
 
   def send_code(phone_number)
-    code = "123"
+    code = (1000..9999).to_a.sample
     self.text_confirmation = code
     self.save
     Messenger.send_code(phone_number, code)
