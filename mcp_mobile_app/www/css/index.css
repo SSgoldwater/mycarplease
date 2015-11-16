@@ -134,7 +134,7 @@ button {
 .vehicles-in-transit {
   border: .2em solid white;
   border-radius: 1em;
-  height: 15em;
+  height: 10em;
   margin: 0px 5% 0px 5%;
   overflow:auto;
 }
