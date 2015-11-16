@@ -110,10 +110,20 @@ $(document).ready(function() {
               ticket: ticket
       },
       success: function(vehicle) {
-	console.log(vehicle)
+        renderVehicle(vehicle)
       } 
     })
+  });
 
+  $('.transit-vehicles-table').on('click', '.return-button', function() {
+    var vehicleId = $(this).parents('.transit-vehicle').attr('data-id')
+    $.ajax({
+      type: 'POST',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/return.json',
+      success: function(vehicle) {
+	renderVehicle(vehicle)
+      }
+    })
   });
 
   pollData()
@@ -183,6 +193,9 @@ renderVehicle = function(vehicle) {
 	+"</h3></td><td class=\"return-button\"><button>Return</button></td></tr>"
       )
     }
+  }
+  else if (vehicle["status"] == "returned") {
+    $('.transit-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
   }
 };
 

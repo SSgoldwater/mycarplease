@@ -1,5 +1,5 @@
 class Employee < ActiveRecord::Base
-  validates :first_name, :last_name, :email, :password, presence: true
+  validates :first_name, :last_name, :email, :password_digest, presence: true
   enum status: [ :active, :inactive ]
   belongs_to :location
   has_secure_password

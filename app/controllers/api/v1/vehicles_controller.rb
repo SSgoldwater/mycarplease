@@ -29,4 +29,12 @@ class Api::V1::VehiclesController < ApiController
     respond_with vehicle, location: root_url
   end
 
+  def return
+    vehicle = Vehicle.find(params["id"])
+    vehicle.status = "returned"
+    vehicle.save
+
+    respond_with vehicle, location: root_url
+  end
+
 end
