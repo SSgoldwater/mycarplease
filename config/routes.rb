@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       resources :vehicles, except: [:new, :edit], defaults: { format: 'json' }
       post '/vehicles/:id/pull_up', to: 'vehicles#pull_up'
       post '/vehicles/:id/give_quote', to: 'vehicles#give_quote'
+      post '/vehicles/:id/return', to: 'vehicles#return'
     end
   end
 end
