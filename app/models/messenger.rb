@@ -4,7 +4,7 @@ class Messenger
     @connection ||= Twilio::REST::Client.new(ENV['twilio_account_sid'], ENV['twilio_auth_token'])
     @connection.account.messages.create({
       :from => '+15672986628',  
-      :to => to,
+      :to => "+1#{to}",
       :body => code
     })
   end
@@ -13,7 +13,7 @@ class Messenger
     @connection ||= Twilio::REST::Client.new(ENV['twilio_account_sid'], ENV['twilio_auth_token'])
     @connection.account.messages.create({
       :from => '+15672986628',  
-      :to => to,
+      :to => "+1#{to}",
       :body => quote
     })
   end
