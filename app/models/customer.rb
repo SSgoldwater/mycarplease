@@ -1,6 +1,7 @@
 class Customer < ActiveRecord::Base
   belongs_to :location
   has_one    :vehicle
+  validates  :phone, length: { is: 10 }
 
   def send_code(phone_number)
     code = "123"
@@ -11,7 +12,6 @@ class Customer < ActiveRecord::Base
 
   def send_quote(quote)
     Messenger.send_quote(self.phone, quote)
-    puts quote
   end
 
   def verify(customer, customer_params)
