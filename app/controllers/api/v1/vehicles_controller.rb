@@ -25,8 +25,9 @@ class Api::V1::VehiclesController < ApiController
     customer.send_quote(params["quote"])
     vehicle.status = "transit"
     vehicle.save
+    response = { vehicle: vehicle, quote: params["quote"] } 
 
-    respond_with vehicle, location: root_url
+    respond_with response, location: root_url
   end
 
   def return
