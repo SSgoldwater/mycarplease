@@ -1,33 +1,33 @@
 var app = {
-    // Application Constructor
-    initialize: function() {
-        this.bindEvents();
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-    },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        app.receivedEvent('deviceready');
-    },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+  // Application Constructor
+  initialize: function() {
+    this.bindEvents();
+  },
+  // Bind Event Listeners
+  //
+  // Bind any events that are required on startup. Common events are:
+  // 'load', 'deviceready', 'offline', and 'online'.
+  bindEvents: function() {
+    document.addEventListener('deviceready', this.onDeviceReady, false);
+  },
+  // deviceready Event Handler
+  //
+  // The scope of 'this' is the event. In order to call the 'receivedEvent'
+  // function, we must explicitly call 'app.receivedEvent(...);'
+  onDeviceReady: function() {
+    app.receivedEvent('deviceready');
+  },
+  // Update DOM on a Received Event
+  receivedEvent: function(id) {
+    var parentElement = document.getElementById(id);
+    var listeningElement = parentElement.querySelector('.listening');
+    var receivedElement = parentElement.querySelector('.received');
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+    listeningElement.setAttribute('style', 'display:none;');
+    receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
-    }
+    console.log('Received Event: ' + id);
+  }
 
 };
 
@@ -39,25 +39,26 @@ $(document).bind("mobileinit", function() {
 app.initialize();
 
 $(document).ready(function() {
+
   $('.clock-in-button').on('click', function() {
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
+      url: 'http://localhost:3000/api/v1/clockin',
       dataType: "json",
       data: { account: $('.employee-location-selector').children(':checked').text(), 
-              email:    $('.clock-in-field.email').val(),
-              password: $('.clock-in-field.password').val()
+	email:    $('.clock-in-field.email').val(),
+      password: $('.clock-in-field.password').val()
       }, 
       success: function(data) {
-        $('.app-home').hide(),	  
-        $('.app-dash').show(),
-        renderEmployeeName(data),
-      	renderShiftLocation(data),
-        fetchVehicles(data["vehicles"])
+	$('.app-home').hide(),	  
+      $('.app-dash').show(),
+      renderEmployeeName(data),
+      renderShiftLocation(data),
+      fetchVehicles(data["vehicles"])
       }
     })
   });
-  
+
   $('.new-car').on('click', function() {
     ticketNo = $('.ticket_no').val();
     space = $('.space').val();
@@ -65,17 +66,17 @@ $(document).ready(function() {
 
     var vehicle_params = {
       ticketNo: ticketNo,
-      space: space,
-      account: account,
+    space: space,
+    account: account,
     };
-    
+
     console.log(vehicle_params);
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+      url: 'http://localhost:3000/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
-        renderVehicle(vehicle)
+	renderVehicle(vehicle)
       }
     })
   });
@@ -90,7 +91,7 @@ $(document).ready(function() {
     var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/pull_up.json',
       success: function(vehicle) {
 	renderVehicle(vehicle)
       } 
@@ -105,12 +106,12 @@ $(document).ready(function() {
     console.log(quote)
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/give_quote.json',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/give_quote.json',
       data: { quote: quote,
-              ticket: ticket
+	ticket: ticket
       },
-      success: function(vehicle) {
-        renderVehicle(vehicle)
+      success: function(response) {
+	renderTransitVehicle(response)
       } 
     })
   });
@@ -119,13 +120,13 @@ $(document).ready(function() {
     var vehicleId = $(this).parents('.transit-vehicle').attr('data-id')
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/return.json',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/return.json',
       success: function(vehicle) {
 	renderVehicle(vehicle)
       }
     })
   });
-
+  
   pollData()
 
 });
@@ -142,55 +143,55 @@ renderVehicle = function(vehicle) {
   if (vehicle["status"] == "parked") {
     if( $('.all-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0 ) {
       $('.all-vehicles-table').append(
-	"<tr class=\"parked-vehicle\" data-id=" 
-	+ vehicle["id"] 
-	+ "><td><h3>#" 
-	+ vehicle["ticket_no"] 
-	+ "</h3></td><td><h3>"
-	+ vehicle["space"] 
-	+ "</h3></td><td><h3>"
-	+ vehicle["color"] 
-	+ " "
-	+ vehicle["style"] 
-	+"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
-      )
-    }
+	  "<tr class=\"parked-vehicle\" data-id=" 
+	  + vehicle["id"] 
+	  + "><td><h3>#" 
+	  + vehicle["ticket_no"] 
+	  + "</h3></td><td><h3>"
+	  + vehicle["space"] 
+	  + "</h3></td><td><h3>"
+	  + vehicle["color"] 
+	  + " "
+	  + vehicle["style"] 
+	  +"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
+	  )
+  }
   } 
   else if (vehicle["status"] == "needs_quote") {
     $('.parked-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
-    
+
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
       $('.transit-vehicles-table').prepend(
-	"<tr class=\"quote-vehicle vehicle\" data-id=" 
-	+ vehicle["id"] 
-	+ "><td><h3>#" 
-	+ vehicle["ticket_no"] 
-	+ "</h3></td><td><h3>"
-	+ vehicle["space"] 
-	+ "</h3></td><td><h3>"
-	+ vehicle["color"] 
-	+ " "
-	+ vehicle["style"] 
-	+"</h3></td><td><input class=\"quote-time\" type=\"text\"></td><td class=\"quote-button\"><button>Quote</button></td></tr>"
-      )
-    }
+	  "<tr class=\"quote-vehicle vehicle\" data-id=" 
+	  + vehicle["id"] 
+	  + "><td><h3>#" 
+	  + vehicle["ticket_no"] 
+	  + "</h3></td><td><h3>"
+	  + vehicle["space"] 
+	  + "</h3></td><td><h3>"
+	  + vehicle["color"] 
+	  + " "
+	  + vehicle["style"] 
+	  +"</h3></td><td><input class=\"quote-time\" type=\"text\"></td><td class=\"quote-button\"><button>Quote</button></td></tr>"
+	  )
+  }
   }
   else if (vehicle["status"] == "transit") {
     $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
       $('[data-id=\"' + vehicle.id + '\"]').remove();
       $('.transit-vehicles-table').append(
-	"<tr class=\"transit-vehicle vehicle\" data-id=" 
-	+ vehicle["id"] 
-	+ "><td><h3>#" 
-	+ vehicle["ticket_no"] 
-	+ "</h3></td><td><h3>"
-	+ vehicle["space"] 
-	+ "</h3></td><td><h3>"
-	+ vehicle["color"] 
-	+ " "
-	+ vehicle["style"] 
-	+"</h3></td><td class=\"return-button\"><button>Return</button></td></tr>"
+	  "<tr class=\"transit-vehicle vehicle\" data-id=" 
+	  + vehicle["id"] 
+	  + "><td><h3>#" 
+	  + vehicle["ticket_no"] 
+	  + "</h3></td><td><h3>"
+	  + vehicle["space"] 
+	  + "</h3></td><td><h3>"
+	  + vehicle["color"] 
+	  + " "
+	  + vehicle["style"] 
+	  + "</h3></td><td class=\"return-button\"><button>Return</button></td></tr>"
       )
     }
   }
@@ -211,7 +212,7 @@ function fetchVehicles() {
     var account         = $('.location-name').text();
     $.ajax({
       type: 'GET',
-      url:  'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+      url:  'http://localhost:3000/api/v1/vehicles.json',
       data: { account: account },
       success: function(vehicles) {
 	console.log(vehicles);
@@ -235,4 +236,52 @@ function fetchVehicles() {
       },
     })
   }
+}
+
+function renderTransitVehicle(response) {
+  console.log(response)
+  var quote = response["quote"];
+  console.log(quote)
+  var vehicle = response["vehicle"];
+    $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
+    if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
+      timer(); 
+      $('[data-id=\"' + vehicle.id + '\"]').remove();
+      $('.transit-vehicles-table').append(
+	  "<tr class=\"transit-vehicle vehicle\" data-id=" 
+	  + vehicle["id"] 
+	  + "><td><h3>#" 
+	  + vehicle["ticket_no"] 
+	  + "</h3></td><td><h3>"
+	  + vehicle["space"] 
+	  + "</h3></td><td><h3>"
+	  + vehicle["color"] 
+	  + " "
+	  + vehicle["style"] 
+	  + "</h3></td><td><div class=\"timer\">"
+	  + quote 
+	  + ":00</div></td><td class=\"return-button\"><button>Return</button></td></tr>"
+      )
+    }
+}
+
+var timer = function() {
+  setInterval(function() {
+      var timer = $('.timer').html();
+      timer = timer.split(':');
+      var minutes = parseInt(timer[0], 10);
+      var seconds = parseInt(timer[1], 10);
+      seconds -= 1;
+      if (minutes < 0) return clearInterval(interval);
+      if (minutes < 10 && minutes.length != 2) minutes = '0' + minutes;
+      if (seconds < 0 && minutes != 0) {
+	minutes -= 1;
+	seconds = 59;
+      }
+      else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
+      $('.timer').html(minutes + ':' + seconds);
+
+      if (minutes == 0 && seconds == 0)
+      clearInterval(interval);
+  }, 1000);
 }
