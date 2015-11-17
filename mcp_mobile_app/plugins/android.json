@@ -9,6 +9,9 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.mycarplease.mcp_mobile_app"
+        },
+        "phonegap-plugin-push": {
+            "PACKAGE_NAME": "com.mycarplease.mcp_mobile_app"
         }
     },
     "dependent_plugins": {}
