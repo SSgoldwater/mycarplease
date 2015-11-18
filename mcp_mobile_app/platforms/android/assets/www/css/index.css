@@ -117,6 +117,7 @@ button {
   float: right;
   margin: .8em;
   height: 2.5em;
+  margin-bottom: 0em;
 }
 
 .location-name {
@@ -128,8 +129,12 @@ button {
 }
 
 .notifications {
-  height: 6.5em;
   overflow-y: auto;
+  margin: auto;
+}
+
+.count {
+  margin: .5em;
 }
 
 .vehicles-in-transit {
