@@ -140,6 +140,19 @@ button {
   overflow:auto;
 }
 
+.quote-time {
+  color: white;
+  background: rgba(0,0,0,0.0);
+  border: .1em solid white;
+  border-radius: .5em;
+  width: 5em;
+  height: 2em;
+}
+
+.quote-button button {
+  height: 2em;
+}
+
 .return-button {
   text-align: right;
 }
@@ -225,7 +238,7 @@ td {
 h2 {
   font-weight: normal;
   text-align: center;
-  margin-top: .5em;
+  margin-top: 1em;
 }
 
 .event {
