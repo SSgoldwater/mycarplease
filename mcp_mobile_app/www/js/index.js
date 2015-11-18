@@ -58,7 +58,7 @@ $(document).ready(function() {
 	fetchVehicles(data["vehicles"])
       },
       error: function() {
-	if (!$('.app-home h3').hasClass('invalid-login')) {
+	if (!$('.app-home h3').hasClass('invalid-login')) { 
 	  $('.app-home').append(
 	    "<h3 class=\"invalid-login\">Invalid login credentials</h3>"
 	  )
@@ -82,13 +82,21 @@ $(document).ready(function() {
       style: style
     };
 
-    console.log(vehicle_params);
     $.ajax({
       type: 'POST',
       url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
+        $('.ticket_no').val("")
+        $('.space').val("")
 	renderVehicle(vehicle)
+      },
+      error: function() {
+	$('.new-car').parents('td').append(
+	  "<p class=\"invalid-vehicle\" style=\"margin\":\"0em\">Invalid<br>Vehicle Info</p>"
+	).queue(function() {
+	  $('.invalid-vehicle').fadeOut(5000)
+	})
       }
     })
   });
@@ -101,14 +109,13 @@ $(document).ready(function() {
   });
 
   $('.all-vehicles-table').on('click', '.pull-up-button button', function() {
-    console.log('button pressed')
     var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
     $.ajax({
       type: 'POST',
       url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
       success: function(vehicle) {
 	renderVehicle(vehicle)
-      } 
+      }
     })
   });
 
