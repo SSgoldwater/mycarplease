@@ -1,12 +1,15 @@
 html, body {
   height: 100%;
-    background-image: radial-gradient(top, 70% 80%, #8D201B 0%, #000000 100%);
-    background-image:-webkit-radial-gradient(top, 70% 80%, #8D201B 0%, #000000 100%);
-    background-image:-ms-radial-gradient(50% 100%, #8D201B 0%, #000000 100%);
-    font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
-    color: white;
-  }
+  background-image: radial-gradient(top, 70% 80%, #8D201B 0%, #000000 100%);
+  background-image:-webkit-radial-gradient(top, 70% 80%, #8D201B 0%, #000000 100%);
+  background-image:-ms-radial-gradient(50% 100%, #8D201B 0%, #000000 100%);
+  font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+  color: white;
+}
 
 input {
-  color: black
+  background: rgba(0,0,0,0.0);
+  border-radius: .5em;
+  height: 3em;
+
 }
