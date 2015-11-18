@@ -89,13 +89,14 @@ $(document).ready(function() {
       success: function(vehicle) {
         $('.ticket_no').val("")
         $('.space').val("")
+        $('.new-car').siblings().remove()
 	renderVehicle(vehicle)
       },
       error: function() {
 	$('.new-car').parents('td').append(
 	  "<p class=\"invalid-vehicle\" style=\"margin\":\"0em\">Invalid<br>Vehicle Info</p>"
 	).queue(function() {
-	  $('.invalid-vehicle').fadeOut(5000)
+	  $('.invalid-vehicle').fadeOut(2000)
 	})
       }
     })
