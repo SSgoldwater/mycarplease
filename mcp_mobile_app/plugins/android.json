@@ -12,7 +12,14 @@
         },
         "phonegap-plugin-push": {
             "PACKAGE_NAME": "com.mycarplease.mcp_mobile_app"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.mycarplease.mcp_mobile_app"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.mycarplease.mcp_mobile_app"
+        }
+    }
 }

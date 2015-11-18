@@ -42,9 +42,13 @@ app.initialize();
 $(document).ready(function() {
 
   $('.clock-in-button').on('click', function() {
+    cordova.plugins.notification.local.schedule({
+	  id: 1,
+	text: "You have a customer waiting for a quote.",
+    });
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/api/v1/clockin',
+      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
       dataType: "json",
       data: { account: $('.employee-location-selector').children(':checked').text(), 
 	email:    $('.clock-in-field.email').val(),
@@ -52,10 +56,10 @@ $(document).ready(function() {
       }, 
       success: function(data) {
 	$('.app-home').hide(),	  
-      $('.app-dash').show(),
-      renderEmployeeName(data),
-      renderShiftLocation(data),
-      fetchVehicles(data["vehicles"])
+	$('.app-dash').show(),
+	renderEmployeeName(data),
+	renderShiftLocation(data),
+	fetchVehicles(data["vehicles"])
       }
     })
   });
@@ -74,7 +78,7 @@ $(document).ready(function() {
     console.log(vehicle_params);
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/api/v1/vehicles.json',
+      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
 	renderVehicle(vehicle)
@@ -92,7 +96,7 @@ $(document).ready(function() {
     var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/pull_up.json',
+      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
       success: function(vehicle) {
 	renderVehicle(vehicle)
       } 
@@ -107,12 +111,12 @@ $(document).ready(function() {
     console.log(quote)
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/give_quote.json',
+      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/give_quote.json',
       data: { quote: quote,
 	ticket: ticket
       },
       success: function(response) {
-	renderTransitVehicle(response)
+	renderTransitVehicle(response);
       } 
     })
   });
@@ -121,7 +125,7 @@ $(document).ready(function() {
     var vehicleId = $(this).parents('.transit-vehicle').attr('data-id')
     $.ajax({
       type: 'POST',
-      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/return.json',
+      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/return.json',
       success: function(vehicle) {
 	renderVehicle(vehicle)
       }
@@ -162,6 +166,10 @@ renderVehicle = function(vehicle) {
     $('.parked-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
 
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
+      cordova.plugins.notification.local.schedule({
+	id: 1,
+	text: "You have a customer waiting for a quote.",
+      });
       $('.transit-vehicles-table').prepend(
 	  "<tr class=\"quote-vehicle vehicle\" data-id=" 
 	  + vehicle["id"] 
@@ -213,7 +221,7 @@ function fetchVehicles() {
     var account         = $('.location-name').text();
     $.ajax({
       type: 'GET',
-      url:  'http://localhost:3000/api/v1/vehicles.json',
+      url:  'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
       data: { account: account },
       success: function(vehicles) {
 	console.log(vehicles);
@@ -240,9 +248,7 @@ function fetchVehicles() {
 }
 
 function renderTransitVehicle(response) {
-  console.log(response)
   var quote = response["quote"];
-  console.log(quote)
   var vehicle = response["vehicle"];
     $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
