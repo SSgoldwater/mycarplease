@@ -96,7 +96,8 @@ $(document).ready(function() {
   $('.clockout-button').on('click', function() {
     $('.app-dash').hide();
     $('.app-home').show();
-    $('tbody').html("");
+    $('.transit-vehicles-table').html("");
+    $('.all-vehicles-table').html("")
   });
 
   $('.all-vehicles-table').on('click', '.pull-up-button button', function() {
