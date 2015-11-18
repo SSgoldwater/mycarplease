@@ -64,11 +64,15 @@ $(document).ready(function() {
     ticketNo = $('.ticket_no').val();
     space = $('.space').val();
     account = $('.location-name').text();
+    color = $('.vehicle-color').children(':checked').text()
+    style = $('.vehicle-class').children(':checked').text()
 
     var vehicle_params = {
       ticketNo: ticketNo,
-    space: space,
-    account: account,
+      space: space,
+      account: account,
+      color: color,
+      style: style
     };
 
     console.log(vehicle_params);
