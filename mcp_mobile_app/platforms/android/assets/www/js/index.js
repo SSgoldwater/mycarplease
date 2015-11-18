@@ -56,6 +56,13 @@ $(document).ready(function() {
 	renderEmployeeName(data),
 	renderShiftLocation(data),
 	fetchVehicles(data["vehicles"])
+      },
+      error: function() {
+	if (!$('.app-home h3').hasClass('invalid-login')) {
+	  $('.app-home').append(
+	    "<h3 class=\"invalid-login\">Invalid login credentials</h3>"
+	  )
+	}
       }
     })
   });
@@ -165,7 +172,6 @@ renderVehicle = function(vehicle) {
   } 
   else if (vehicle["status"] == "needs_quote") {
     $('.parked-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
-
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
       cordova.plugins.notification.local.schedule({
 	id: 1,

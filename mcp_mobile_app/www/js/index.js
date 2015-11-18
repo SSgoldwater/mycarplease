@@ -56,6 +56,13 @@ $(document).ready(function() {
 	renderEmployeeName(data),
 	renderShiftLocation(data),
 	fetchVehicles(data["vehicles"])
+      },
+      error: function() {
+	if (!$('.app-home h3').hasClass('invalid-login')) { 
+	  $('.app-home').append(
+	    "<h3 class=\"invalid-login\">Invalid login credentials</h3>"
+	  )
+	}
       }
     })
   });
@@ -75,13 +82,22 @@ $(document).ready(function() {
       style: style
     };
 
-    console.log(vehicle_params);
     $.ajax({
       type: 'POST',
       url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
+        $('.ticket_no').val("")
+        $('.space').val("")
+        $('.new-car').siblings().remove()
 	renderVehicle(vehicle)
+      },
+      error: function() {
+	$('.new-car').parents('td').append(
+	  "<p class=\"invalid-vehicle\" style=\"margin\":\"0em\">Invalid<br>Vehicle Info</p>"
+	).queue(function() {
+	  $('.invalid-vehicle').fadeOut(2000)
+	})
       }
     })
   });
@@ -89,18 +105,18 @@ $(document).ready(function() {
   $('.clockout-button').on('click', function() {
     $('.app-dash').hide();
     $('.app-home').show();
-    $('tbody').html("");
+    $('.transit-vehicles-table').html("");
+    $('.all-vehicles-table').html("")
   });
 
   $('.all-vehicles-table').on('click', '.pull-up-button button', function() {
-    console.log('button pressed')
     var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
     $.ajax({
       type: 'POST',
       url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
       success: function(vehicle) {
 	renderVehicle(vehicle)
-      } 
+      }
     })
   });
 
@@ -165,7 +181,6 @@ renderVehicle = function(vehicle) {
   } 
   else if (vehicle["status"] == "needs_quote") {
     $('.parked-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
-
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
       cordova.plugins.notification.local.schedule({
 	id: 1,
