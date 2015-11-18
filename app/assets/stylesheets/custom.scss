@@ -1,0 +1,103 @@
+.container-fluid {
+  padding: 0px;
+}
+
+a {
+  color: white;
+  margin: 1em;
+}
+  
+.splash-wrap {
+  text-align: center;
+  
+  .page-head {
+    text-align: left;
+    width: 100%;
+  }
+  
+  h2 {
+    margin: 1em 1em 0 1em;
+    line-height: 162%;
+    text-shadow: 0px 5px 10px black;
+  }
+
+  .btn {
+    background-image: linear-gradient(-180deg, rgba(255,255,255,0.55) 0%, #601511 60%);
+    background-repeat: no-repeat;
+    color: white;
+    font-size: 1em;
+    text-shadow: 0px 5px 10px black;
+    border: .05em solid white;
+    width: 70%;
+    height: 2em;
+    margin-top: 20%;
+    border-radius: 15px;
+    padding-top: 0px;
+  }
+  
+  p {
+    margin-top: 35%;
+  }
+}
+
+.splash-scroll {
+  width: 100%;
+  background: black;
+  padding: 10em 2em;
+  line-height: 4em;
+  h3 {
+    text-align: center;
+  }
+}
+
+.phone-request {
+  text-align: center;
+  margin: 2.5em 1em .5em;
+}
+
+.new_customer {
+  text-align: center;
+  input {
+    width: 60%;
+    margin: 2em;
+    border: .2em solid white;
+  }
+  .last-step {
+    width: 50%;
+    border: .1em solid white;
+    background-image: linear-gradient(-180deg, rgba(255,255,255,0.55) 0%, #601511 60%);
+  }
+}
+
+p {
+  width: 65%;
+  text-align: center;
+  margin: auto;
+  margin-top: 1em;
+}
+
+.get-car-form {
+  text-align: center;
+  input {
+    margin: 1em;
+    border: .2em solid white;
+  }
+}
+
+.customer-final {
+  * {
+    text-align: center;
+    width: 90%;
+    margin: auto;
+  }
+  h1 {
+    margin: 1em;
+    width: auto;
+    line-height: 1.5em;
+  }
+  p {
+    margin: 3em;
+    width: auto;
+  }
+  
+}
