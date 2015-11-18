@@ -9,6 +9,7 @@ var app = {
   // 'load', 'deviceready', 'offline', and 'online'.
   bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
+    
   },
   // deviceready Event Handler
   //
@@ -245,7 +246,6 @@ function renderTransitVehicle(response) {
   var vehicle = response["vehicle"];
     $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
-      timer(); 
       $('[data-id=\"' + vehicle.id + '\"]').remove();
       $('.transit-vehicles-table').append(
 	  "<tr class=\"transit-vehicle vehicle\" data-id=" 
@@ -258,30 +258,30 @@ function renderTransitVehicle(response) {
 	  + vehicle["color"] 
 	  + " "
 	  + vehicle["style"] 
-	  + "</h3></td><td><div class=\"timer\">"
+	  + "</h3></td><td><div class=\"timer\" data-timer-id=\"" + vehicle.id + "\">"
 	  + quote 
 	  + ":00</div></td><td class=\"return-button\"><button>Return</button></td></tr>"
       )
+      new Timer(vehicle.id);
     }
 }
 
-var timer = function() {
-  setInterval(function() {
-      var timer = $('.timer').html();
-      timer = timer.split(':');
-      var minutes = parseInt(timer[0], 10);
-      var seconds = parseInt(timer[1], 10);
-      seconds -= 1;
-      if (minutes < 0) return clearInterval(interval);
-      if (minutes < 10 && minutes.length != 2) minutes = '0' + minutes;
-      if (seconds < 0 && minutes != 0) {
-	minutes -= 1;
-	seconds = 59;
-      }
-      else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
-      $('.timer').html(minutes + ':' + seconds);
-
-      if (minutes == 0 && seconds == 0)
-      clearInterval(interval);
-  }, 1000);
+var Timer = function() {
+  setInterval(function(arguments) {
+    this.timer = ($('.transit-vehicles-table').children().children().children('[data-timer-id=\"' + arguments[0] + '\"]')).html();
+    timer = this.timer.split(':');
+    var minutes = parseInt(timer[0], 10);
+    var seconds = parseInt(timer[1], 10);
+    seconds -= 1;
+    if (minutes < 0) return clearInterval(this.timer);
+    if (minutes < 10 && minutes.length != 2) minutes = '0' + minutes;
+    if (seconds < 0 && minutes != 0) {
+      minutes -= 1;
+      seconds = 59;
+    }
+    else if (seconds < 10 && length.seconds != 2) seconds = '0' + seconds;
+      ($('.transit-vehicles-table').children().children().children('[data-timer-id=\"' + arguments[0] + '\"]')).html(minutes + ':' + seconds);
+    if (minutes == 0 && seconds == 0)
+    clearInterval(timer);
+  }, 1000, arguments);
 }

@@ -9,6 +9,7 @@ var app = {
   // 'load', 'deviceready', 'offline', and 'online'.
   bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
+    
   },
   // deviceready Event Handler
   //
@@ -16,6 +17,13 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   onDeviceReady: function() {
     app.receivedEvent('deviceready');
+     var push = PushNotification.init({ "android": {"senderID": "517077570489" },
+      "ios": {"alert": "true", "badge": "true", "sound": "true"}, "windows": {} } );
+
+      push.on('registration', function(data) {
+	alert(data.registrationId)
+      });
+     
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {
