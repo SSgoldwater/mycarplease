@@ -116,6 +116,7 @@ button {
 .clockout-button {
   float: right;
   margin: .8em;
+  height: 2.5em;
 }
 
 .location-name {
@@ -139,6 +140,19 @@ button {
   overflow:auto;
 }
 
+.quote-time {
+  color: white;
+  background: rgba(0,0,0,0.0);
+  border: .1em solid white;
+  border-radius: .5em;
+  width: 5em;
+  height: 2em;
+}
+
+.quote-button button {
+  height: 2em;
+}
+
 .return-button {
   text-align: right;
 }
@@ -150,18 +164,41 @@ button {
 
 .new-vehicle-form {
   text-align: center;
+  border-collapse: separate;
+}
+
+.new {
+  margin-bottom: 0em;
+}
+
+.new-vehicle-form tr {
+  height: 3em;
 }
 
 .new-vehicle-form input {
-  width: 20%;
+  height: 2em;
+  width: 4em;
+  color: white;
   margin: 0px .3em;
   border: .1em solid white;
   border-radius: .5em;
   background-color: rgba(0,0,0, 0.0);
 }
 
+.new-vehicle-form select {
+  border: .1em solid white;
+  border-radius: .5em;
+  background: rgba(0,0,0,.0);
+  color: white;
+  height: 2.5em;
+  width: 6em;
+  margin-top: 1.3em;
+}
+
 .new-vehicle-form button {
   margin-left: 1em;
+  margin-top: 1.3em;
+  height: 2.5em;
 }
 
 .vehicle-count {
@@ -172,7 +209,7 @@ button {
   border: 2px solid white;
   border-radius: 1em;
   height: 15em;
-  margin: 2em 5% .15em 5%;
+  margin: 0em 5% .15em 5%;
   overflow:auto;
 }
 
@@ -201,7 +238,7 @@ td {
 h2 {
   font-weight: normal;
   text-align: center;
-  margin-top: .5em;
+  margin-top: 1em;
 }
 
 .event {
