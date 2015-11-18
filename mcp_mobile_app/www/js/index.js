@@ -167,12 +167,10 @@ renderVehicle = function(vehicle) {
     $('.parked-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
 
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
-      /*
       cordova.plugins.notification.local.schedule({
 	id: 1,
 	text: "You have a customer waiting for a quote.",
       });
-      */
       $('.transit-vehicles-table').prepend(
 	  "<tr class=\"quote-vehicle vehicle\" data-id=" 
 	  + vehicle["id"] 
