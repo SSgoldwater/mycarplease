@@ -171,18 +171,19 @@ button {
   margin-bottom: 0em;
 }
 
-.new-vehicle-form tr {
-  height: 3em;
-}
-
 .new-vehicle-form input {
-  height: 2em;
+  height: 1.5em;
   width: 4em;
   color: white;
   margin: 0px .3em;
   border: .1em solid white;
   border-radius: .5em;
   background-color: rgba(0,0,0, 0.0);
+  text-align: right;
+}
+
+.new-vehicle-field {
+  text-align: right;
 }
 
 .new-vehicle-form select {
@@ -190,9 +191,8 @@ button {
   border-radius: .5em;
   background: rgba(0,0,0,.0);
   color: white;
-  height: 2.5em;
+  height: 2em;
   width: 6em;
-  margin-top: 1.3em;
 }
 
 .new-vehicle-form button {
