@@ -42,10 +42,6 @@ app.initialize();
 $(document).ready(function() {
 
   $('.clock-in-button').on('click', function() {
-    cordova.plugins.notification.local.schedule({
-	  id: 1,
-	text: "You have a customer waiting for a quote.",
-    });
     $.ajax({
       type: 'POST',
       url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
