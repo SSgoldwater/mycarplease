@@ -42,6 +42,10 @@ app.initialize();
 $(document).ready(function() {
 
   $('.clock-in-button').on('click', function() {
+    cordova.plugins.notification.local.schedule({
+	  id: 1,
+	text: "You have a customer waiting for a quote.",
+    });
     $.ajax({
       type: 'POST',
       url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
@@ -52,10 +56,10 @@ $(document).ready(function() {
       }, 
       success: function(data) {
 	$('.app-home').hide(),	  
-      $('.app-dash').show(),
-      renderEmployeeName(data),
-      renderShiftLocation(data),
-      fetchVehicles(data["vehicles"])
+	$('.app-dash').show(),
+	renderEmployeeName(data),
+	renderShiftLocation(data),
+	fetchVehicles(data["vehicles"])
       }
     })
   });
@@ -112,7 +116,7 @@ $(document).ready(function() {
 	ticket: ticket
       },
       success: function(response) {
-	renderTransitVehicle(response)
+	renderTransitVehicle(response);
       } 
     })
   });
@@ -162,6 +166,10 @@ renderVehicle = function(vehicle) {
     $('.parked-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
 
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
+      cordova.plugins.notification.local.schedule({
+	id: 1,
+	text: "You have a customer waiting for a quote.",
+      });
       $('.transit-vehicles-table').prepend(
 	  "<tr class=\"quote-vehicle vehicle\" data-id=" 
 	  + vehicle["id"] 
@@ -240,11 +248,6 @@ function fetchVehicles() {
 }
 
 function renderTransitVehicle(response) {
-  cordova.plugins.notification.local.schedule({
-        id: 1,
-      text: "You have a customer waiting for a quote.",
-      sound: isAndroid ? 'file://sound.mp3' : 'file://beep.caf',
-  });
   var quote = response["quote"];
   var vehicle = response["vehicle"];
     $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
