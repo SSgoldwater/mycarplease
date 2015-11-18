@@ -48,12 +48,44 @@
 	    <tbody class="transit-vehicles-table"></tbody>
 	  </table>
 	</div>
-	<h3>New Vehicle</h3>
-	<div class="new-vehicle-form">
-	  <label>Ticket:<input class="ticket_no" type="text"></label>
-	  <label>Space:<input class="space" type="text"></label>
-	  <button class="new-car">Parked</button>
-	</div>
+	<table class="new-vehicle-form">
+	  <thead>
+	    <h3 class="new" >New Vehicle</h3>
+	  </thead>
+	  <tbody>
+	    <tr>
+	      <td><label>Ticket:<input class="ticket_no" type="number"></label></td>
+	      <td><label>Space:<input class="space" type="text"></label></td>
+	      <td>
+		<select class="vehicle-color">
+		  <option value="value1">Red</option> 
+		  <option value="value2">Orange</option>
+		  <option value="value3">Yellow</option>
+		  <option value="value4">Black</option>
+		  <option value="value5">White</option>
+		  <option value="value6">Silver</option>
+		  <option value="value7">Grey</option>
+		  <option value="value8">Green</option>
+		  <option value="value9">Blue</option>
+		  <option value="value10">Purple</option>
+		  <option value="value11">Maroon</option>
+		</select>
+	      </td>
+	      <td>
+		<select class="vehicle-class">
+		  <option value="value1">Sedan</option> 
+		  <option value="value2">Coupe</option> 
+		  <option value="value3">Convertible</option> 
+		  <option value="value4">Hatchback</option> 
+		  <option value="value5">Van</option> 
+		  <option value="value6">SUV</option> 
+		  <option value="value6">Truck</option> 
+		</select>
+	      </td>
+	      <td><button class="new-car">Parked</button></td>
+	    </tr>
+	  </tbody>
+	</table>
 	<h3 class="parked-vehicles"></h3>
 	<div class="all-vehicles">
 	  <table>
