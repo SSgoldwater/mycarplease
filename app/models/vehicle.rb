@@ -19,4 +19,27 @@ class Vehicle < ActiveRecord::Base
 					  )
   end
 
+  def self.pull_up(params)
+    vehicle = Vehicle.find(params["id"])
+    vehicle.status = "transit"
+    vehicle.save!
+    vehicle
+  end
+
+  def self.give_quote(params)
+    vehicle = Vehicle.find(params["id"])
+    customer = Customer.find_by(ticket_no: params["ticket"])
+    customer.send_quote(params["quote"])
+    vehicle.status = "transit"
+    vehicle.save!
+    response = { vehicle: vehicle, quote: params["quote"] } 
+  end
+
+  def self.return(params)
+    vehicle = Vehicle.find(params["id"])
+    vehicle.status = "returned"
+    vehicle.save
+    vehicle
+  end
+
 end
