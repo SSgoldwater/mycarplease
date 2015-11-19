@@ -44,13 +44,14 @@ $(document).ready(function() {
   $('.clock-in-button').on('click', function() {
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
+      url: 'http://localhost:3000/api/v1/clockin',
       dataType: "json",
       data: { account: $('.employee-location-selector').children(':checked').text(), 
 	email:    $('.clock-in-field.email').val(),
       password: $('.clock-in-field.password').val()
       }, 
       success: function(data) {
+	$('.invalid-login').remove(),
 	$('.app-home').hide(),	  
 	$('.app-dash').show(),
 	renderEmployeeName(data),
@@ -84,7 +85,7 @@ $(document).ready(function() {
 
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+      url: 'http://localhost:3000/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
         $('.ticket_no').val("")
@@ -113,7 +114,7 @@ $(document).ready(function() {
     var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/pull_up.json',
       success: function(vehicle) {
 	renderVehicle(vehicle)
       }
@@ -128,7 +129,7 @@ $(document).ready(function() {
     console.log(quote)
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/give_quote.json',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/give_quote.json',
       data: { quote: quote,
 	ticket: ticket
       },
@@ -142,7 +143,7 @@ $(document).ready(function() {
     var vehicleId = $(this).parents('.transit-vehicle').attr('data-id')
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/return.json',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/return.json',
       success: function(vehicle) {
 	renderVehicle(vehicle)
       }
@@ -237,7 +238,7 @@ function fetchVehicles() {
     var account         = $('.location-name').text();
     $.ajax({
       type: 'GET',
-      url:  'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+      url:  'http://localhost:3000/api/v1/vehicles.json',
       data: { account: account },
       success: function(vehicles) {
 	console.log(vehicles);
