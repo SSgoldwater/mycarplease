@@ -150,12 +150,12 @@ button {
   background: rgba(0,0,0,0.0);
   border: .1em solid white;
   border-radius: .5em;
-  width: 5em;
+  width: 4em;
   height: 2em;
 }
 
 .quote-button button {
-  height: 2em;
+  height: 2.5em;
 }
 
 .return-button {
