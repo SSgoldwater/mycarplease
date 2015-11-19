@@ -76,6 +76,13 @@ p {
   margin-top: 1em;
 }
 
+#customer_location {
+  width: 11em;
+  height: 3em;
+  background-image: linear-gradient(-180deg, rgba(255,255,255,0.55) 0%, #601511 60%);
+  border: 2px solid white;
+}
+
 .get-car-form {
   text-align: center;
   input {
