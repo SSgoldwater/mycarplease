@@ -5,6 +5,18 @@ class Employee < ActiveRecord::Base
   has_secure_password
   before_save :default_values
    
+  def clockin(employee, params)
+    if employee.authenticate(params["password"])
+      employee.active!
+      @response = { employee: employee, 
+		    account:  employee.clockin_location(params),
+		    vehicles: employee.clockin_location(params).vehicles 
+      }
+    else
+      @response = { error: "Invalid login" }
+    end
+  end
+
   def clockin_location(clockin_params)
     Location.find_by(name: clockin_params["account"])
   end
