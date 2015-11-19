@@ -42,30 +42,39 @@ app.initialize();
 $(document).ready(function() {
 
   $('.clock-in-button').on('click', function() {
-    $.ajax({
-      type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
-      dataType: "json",
-      data: { account: $('.employee-location-selector').children(':checked').text(), 
-	email:    $('.clock-in-field.email').val(),
-	password: $('.clock-in-field.password').val()
-      }, 
-      success: function(data) {
-	$('.invalid-login').remove(),
-	$('.app-home').hide(),	  
-	$('.app-dash').show(),
-	renderEmployeeName(data),
-	renderShiftLocation(data),
-	fetchVehicles(data["vehicles"])
-      },
-      error: function() {
-	if (!$('.app-home h3').hasClass('invalid-login')) { 
-	  $('.app-home').append(
-	    "<h3 class=\"invalid-login\">Invalid login credentials</h3>"
-	  )
+    if ($('.employee-location-selector').children(':checked').text() != "Select location" &&
+        $('.clock-in-field.email').val() != "" &&
+        $('.clock-in-field.password').val() != "") {	
+      $.ajax({
+	type: 'POST',
+	url: 'http://localhost:3000/api/v1/clockin',
+	dataType: "json",
+	data: { account: $('.employee-location-selector').children(':checked').text(), 
+	  email:    $('.clock-in-field.email').val(),
+	  password: $('.clock-in-field.password').val()
+	}, 
+	success: function(data) {
+	  if ( data["error"] == "auth failed" ) {
+	    if (!$('.app-home h3').hasClass('invalid-login')) { 
+	      $('.app-home').append(
+		"<h3 class=\"invalid-login\">Invalid login credentials</h3>"
+	      )
+	    }
+	  }
+          else {
+	    $('.invalid-login').remove(),
+	    $('.app-home').hide(),	  
+	    $('.app-dash').show(),
+	    renderEmployeeName(data),
+	    renderShiftLocation(data),
+	    fetchVehicles(data["vehicles"])
+	  }
 	}
-      }
-    })
+      })
+    }
+    else { 
+      alert('Please fill out all clock-in fields')
+    }
   });
 
   $('.new-car').on('click', function() {
@@ -85,7 +94,7 @@ $(document).ready(function() {
 
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+      url: 'http://localhost:3000/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
         $('.ticket_no').val("")
@@ -115,7 +124,7 @@ $(document).ready(function() {
       var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
       $.ajax({
 	type: 'POST',
-	url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
+	url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/pull_up.json',
 	success: function(vehicle) {
 	  renderVehicle(vehicle)
 	}
@@ -131,7 +140,7 @@ $(document).ready(function() {
     console.log(quote)
     $.ajax({
       type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/give_quote.json',
+      url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/give_quote.json',
       data: { quote: quote,
 	ticket: ticket
       },
@@ -146,7 +155,7 @@ $(document).ready(function() {
       var vehicleId = $(this).parents('.transit-vehicle').attr('data-id')
       $.ajax({
 	type: 'POST',
-	url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/return.json',
+	url: 'http://localhost:3000/api/v1/vehicles/' + vehicleId + '/return.json',
 	success: function(vehicle) {
 	  renderVehicle(vehicle)
 	}
@@ -242,7 +251,7 @@ function fetchVehicles() {
     var account         = $('.location-name').text();
     $.ajax({
       type: 'GET',
-      url:  'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
+      url:  'http://localhost:3000/api/v1/vehicles.json',
       data: { account: account },
       success: function(vehicles) {
 	console.log(vehicles);

@@ -13,7 +13,7 @@ class Employee < ActiveRecord::Base
 		    vehicles: employee.clockin_location(params).vehicles 
       }
     else
-      @response = { error: "Invalid login" }
+      @response = { error: "auth failed" }     
     end
   end
 
