@@ -1,24 +1,14 @@
 var app = {
-  // Application Constructor
   initialize: function() {
     this.bindEvents();
   },
-  // Bind Event Listeners
-  //
-  // Bind any events that are required on startup. Common events are:
-  // 'load', 'deviceready', 'offline', and 'online'.
   bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
     
   },
-  // deviceready Event Handler
-  //
-  // The scope of 'this' is the event. In order to call the 'receivedEvent'
-  // function, we must explicitly call 'app.receivedEvent(...);'
   onDeviceReady: function() {
     app.receivedEvent('deviceready');
   },
-  // Update DOM on a Received Event
   receivedEvent: function(id) {
     var parentElement = document.getElementById(id);
     var listeningElement = parentElement.querySelector('.listening');
@@ -29,7 +19,6 @@ var app = {
 
     console.log('Received Event: ' + id);
   }
-
 };
 
 $(document).bind("mobileinit", function() {
@@ -41,33 +30,79 @@ app.initialize();
 
 $(document).ready(function() {
 
-  $('.clock-in-button').on('click', function() {
-    $.ajax({
-      type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
-      dataType: "json",
-      data: { account: $('.employee-location-selector').children(':checked').text(), 
-	email:    $('.clock-in-field.email').val(),
-	password: $('.clock-in-field.password').val()
-      }, 
-      success: function(data) {
-	$('.invalid-login').remove(),
-	$('.app-home').hide(),	  
-	$('.app-dash').show(),
-	renderEmployeeName(data),
-	renderShiftLocation(data),
-	fetchVehicles(data["vehicles"])
-      },
-      error: function() {
-	if (!$('.app-home h3').hasClass('invalid-login')) { 
-	  $('.app-home').append(
-	    "<h3 class=\"invalid-login\">Invalid login credentials</h3>"
-	  )
-	}
-      }
-    })
-  });
+  clockIn();
+  clockOut();
+  newCar();
+  pullUp();
+  quoteVehicle();
+  returnVehicle();
+  pollData()
 
+});
+
+function clockIn() {
+  $('.clock-in-button').on('click', function() {
+    if ($('.employee-location-selector').children(':checked').text() != "Select location" &&
+        $('.clock-in-field.email').val() != "" &&
+        $('.clock-in-field.password').val() != "") {	
+      $.ajax({
+	type: 'POST',
+	url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
+	dataType: "json",
+	data: { account: $('.employee-location-selector').children(':checked').text(), 
+	  email:    $('.clock-in-field.email').val(),
+	  password: $('.clock-in-field.password').val()
+	}, 
+	success: function(data) {
+	  if ( data["error"] == "auth failed" ) {
+	    if (!$('.app-home h3').hasClass('invalid-login')) { 
+	      $('.app-home').append(
+		"<h3 class=\"invalid-login\">Invalid login credentials</h3>"
+	      )
+	    }
+	  }
+          else {
+	    $('.invalid-login').remove(),
+	    $('.app-home').hide(),	  
+	    $('.app-dash').show(),
+	    renderEmployeeName(data),
+	    renderShiftLocation(data),
+	    fetchVehicles(data["vehicles"])
+	  }
+	}
+      })
+    }
+    else { 
+      alert('Please fill out all clock-in fields')
+    }
+  });
+}
+
+function clockOut() {
+  $('.clockout-button').on('click', function() {
+    $('.app-dash').hide();
+    $('.app-home').show();
+    $('.transit-vehicles-table').html("");
+    $('.all-vehicles-table').html("")
+  });
+}
+
+function pullUp() {
+  $('.all-vehicles-table').on('click', '.pull-up-button button', function() {
+    if (window.confirm("Pull up ticket " + $(this).parents().siblings('.ticket-no').text() + "?")) {
+      var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
+      $.ajax({
+	type: 'POST',
+	url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
+	success: function(vehicle) {
+	  renderVehicle(vehicle)
+	}
+      })
+    }
+  })
+}
+
+function newCar() {
   $('.new-car').on('click', function() {
     ticketNo = $('.ticket_no').val();
     space = $('.space').val();
@@ -101,29 +136,10 @@ $(document).ready(function() {
 	})
       }
     })
-  });
+  })
+}
 
-  $('.clockout-button').on('click', function() {
-    $('.app-dash').hide();
-    $('.app-home').show();
-    $('.transit-vehicles-table').html("");
-    $('.all-vehicles-table').html("")
-  });
-
-  $('.all-vehicles-table').on('click', '.pull-up-button button', function() {
-    if (window.confirm("Pull up ticket " + $(this).parents().siblings('.ticket-no').text() + "?")) {
-      var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
-      $.ajax({
-	type: 'POST',
-	url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
-	success: function(vehicle) {
-	  renderVehicle(vehicle)
-	}
-      })
-    }
-  });
-
-
+function quoteVehicle() {
   $('.transit-vehicles-table').on('click', '.quote-button', function() {
     var quote = $(this).siblings().children('.quote-time').val()
     var vehicleId = $(this).parents('.quote-vehicle').attr('data-id')
@@ -139,8 +155,10 @@ $(document).ready(function() {
 	renderTransitVehicle(response);
       } 
     })
-  });
+  })
+}
 
+function returnVehicle() {
   $('.transit-vehicles-table').on('click', '.return-button', function() {
     if (window.confirm("Return ticket " + $(this).siblings('.ticket-no').text() + "?")) {
       var vehicleId = $(this).parents('.transit-vehicle').attr('data-id')
@@ -152,11 +170,8 @@ $(document).ready(function() {
 	}
       })
     }
-  });
-  
-  pollData()
-
-});
+  })
+}
 
 renderEmployeeName = function(data) {
   $('.employee-name').text(data["employee"]["first_name"])
