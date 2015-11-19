@@ -13,17 +13,7 @@ class CustomersController < ApplicationController
 
   def update
     @customer = Customer.find(params[:id])
-    customer = @customer
-    customer.location = Location.find(params["customer"]["location"])
-    if customer.verify(customer, customer_params) 
-      customer.vehicle = Vehicle.find_by(ticket_no: params["customer"]["ticket_no"]) 
-      customer.vehicle.status = "needs_quote"
-      customer.vehicle.save
-      customer.update!(customer_params)
-      render :final
-    else 
-      render :get_vehicle
-    end
+    render (@customer.verify(@customer, params, customer_params))
   end
 
   private
