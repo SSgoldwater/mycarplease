@@ -13,6 +13,7 @@ gem 'unicorn'
 gem 'responders'
 gem 'twilio-ruby'
 gem 'figaro'
+gem 'rails_12factor'
 
 group :development, :test do
   gem 'pry'
