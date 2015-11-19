@@ -33,4 +33,17 @@ RSpec.describe Employee, type: :model do
     expect(employee.save).to be false
   end
 
+  it "can clock in" do
+    create(:location)
+    params = { "password" => "password", "account" => "Chloe" }
+    response = employee.clockin(employee, params)
+
+    expect(response.length).to eq(3)
+    
+    params = { "password" => "wrong", "account" => "Chloe" }
+    response = employee.clockin(employee, params)
+
+    expect(response.length).to eq(1)
+  end
+
 end
