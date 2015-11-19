@@ -6,14 +6,7 @@ class Api::V1::VehiclesController < ApiController
   end
 
   def create
-    location = Location.find_by(name: params["account"])
-    new_vehicle = location.vehicles.create(ticket_no: params["ticketNo"], 
-					   space: params["space"], 
-					   color: params["color"],
-					   style: params["style"],
-					   status: "parked"
-					  )
-    respond_with new_vehicle, location: root_url
+    respond_with (Vehicle.create_by_location(params)), location: root_url
   end
 
   def pull_up
