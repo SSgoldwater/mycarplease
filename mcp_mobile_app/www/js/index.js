@@ -42,9 +42,10 @@ $(document).ready(function() {
 
 function clockIn() {
   $('.clock-in-button').on('click', function() {
+    $(this).append('<p>clicked!</p>');
     if ($('.employee-location-selector').children(':checked').text() != "Select location" &&
-        $('.clock-in-field.email').val() != "" &&
-        $('.clock-in-field.password').val() != "") {	
+      $('.clock-in-field.email').val() != "" &&
+      $('.clock-in-field.password').val() != "") {	
       $.ajax({
 	type: 'POST',
 	url: 'http://mycarplease.herokuapp.com/api/v1/clockin',
