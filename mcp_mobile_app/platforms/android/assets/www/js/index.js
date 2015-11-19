@@ -48,9 +48,10 @@ $(document).ready(function() {
       dataType: "json",
       data: { account: $('.employee-location-selector').children(':checked').text(), 
 	email:    $('.clock-in-field.email').val(),
-      password: $('.clock-in-field.password').val()
+	password: $('.clock-in-field.password').val()
       }, 
       success: function(data) {
+	$('.invalid-login').remove(),
 	$('.app-home').hide(),	  
 	$('.app-dash').show(),
 	renderEmployeeName(data),
@@ -58,7 +59,7 @@ $(document).ready(function() {
 	fetchVehicles(data["vehicles"])
       },
       error: function() {
-	if (!$('.app-home h3').hasClass('invalid-login')) {
+	if (!$('.app-home h3').hasClass('invalid-login')) { 
 	  $('.app-home').append(
 	    "<h3 class=\"invalid-login\">Invalid login credentials</h3>"
 	  )
@@ -82,13 +83,22 @@ $(document).ready(function() {
       style: style
     };
 
-    console.log(vehicle_params);
     $.ajax({
       type: 'POST',
       url: 'http://mycarplease.herokuapp.com/api/v1/vehicles.json',
       data: vehicle_params,
       success: function(vehicle) {
+        $('.ticket_no').val("")
+        $('.space').val("")
+        $('.new-car').siblings().remove()
 	renderVehicle(vehicle)
+      },
+      error: function() {
+	$('.new-car').parents('td').append(
+	  "<p class=\"invalid-vehicle\" style=\"margin\":\"0em\">Invalid<br>Vehicle Info</p>"
+	).queue(function() {
+	  $('.invalid-vehicle').fadeOut(2000)
+	})
       }
     })
   });
@@ -96,19 +106,21 @@ $(document).ready(function() {
   $('.clockout-button').on('click', function() {
     $('.app-dash').hide();
     $('.app-home').show();
-    $('tbody').html("");
+    $('.transit-vehicles-table').html("");
+    $('.all-vehicles-table').html("")
   });
 
   $('.all-vehicles-table').on('click', '.pull-up-button button', function() {
-    console.log('button pressed')
-    var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
-    $.ajax({
-      type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
-      success: function(vehicle) {
-	renderVehicle(vehicle)
-      } 
-    })
+    if (window.confirm("Pull up ticket " + $(this).parents().siblings('.ticket-no').text() + "?")) {
+      var vehicleId = $(this).parents('.parked-vehicle').attr('data-id')
+      $.ajax({
+	type: 'POST',
+	url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/pull_up.json',
+	success: function(vehicle) {
+	  renderVehicle(vehicle)
+	}
+      })
+    }
   });
 
 
@@ -130,14 +142,16 @@ $(document).ready(function() {
   });
 
   $('.transit-vehicles-table').on('click', '.return-button', function() {
-    var vehicleId = $(this).parents('.transit-vehicle').attr('data-id')
-    $.ajax({
-      type: 'POST',
-      url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/return.json',
-      success: function(vehicle) {
-	renderVehicle(vehicle)
-      }
-    })
+    if (window.confirm("Return ticket " + $(this).siblings('.ticket-no').text() + "?")) {
+      var vehicleId = $(this).parents('.transit-vehicle').attr('data-id')
+      $.ajax({
+	type: 'POST',
+	url: 'http://mycarplease.herokuapp.com/api/v1/vehicles/' + vehicleId + '/return.json',
+	success: function(vehicle) {
+	  renderVehicle(vehicle)
+	}
+      })
+    }
   });
   
   pollData()
@@ -156,19 +170,19 @@ renderVehicle = function(vehicle) {
   if (vehicle["status"] == "parked") {
     if( $('.all-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0 ) {
       $('.all-vehicles-table').append(
-	  "<tr class=\"parked-vehicle\" data-id=" 
-	  + vehicle["id"] 
-	  + "><td><h3>#" 
-	  + vehicle["ticket_no"] 
-	  + "</h3></td><td><h3>"
-	  + vehicle["space"] 
-	  + "</h3></td><td><h3>"
-	  + vehicle["color"] 
-	  + " "
-	  + vehicle["style"] 
-	  +"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
-	  )
-  }
+	"<tr class=\"parked-vehicle\" data-id=" 
+	+ vehicle["id"] 
+	+ "><td class=\"ticket-no\"><h3>#" 
+	+ vehicle["ticket_no"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["space"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["color"] 
+	+ " "
+	+ vehicle["style"] 
+	+"</h3></td><td class=\"pull-up-button\"><button>Pull Up</button></td></tr>"
+      )
+    }
   } 
   else if (vehicle["status"] == "needs_quote") {
     $('.parked-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
@@ -178,36 +192,36 @@ renderVehicle = function(vehicle) {
 	text: "You have a customer waiting for a quote.",
       });
       $('.transit-vehicles-table').prepend(
-	  "<tr class=\"quote-vehicle vehicle\" data-id=" 
-	  + vehicle["id"] 
-	  + "><td><h3>#" 
-	  + vehicle["ticket_no"] 
-	  + "</h3></td><td><h3>"
-	  + vehicle["space"] 
-	  + "</h3></td><td><h3>"
-	  + vehicle["color"] 
-	  + " "
-	  + vehicle["style"] 
-	  +"</h3></td><td><input class=\"quote-time\" type=\"text\"></td><td class=\"quote-button\"><button>Quote</button></td></tr>"
-	  )
-  }
+	"<tr class=\"quote-vehicle vehicle\" data-id=" 
+	+ vehicle["id"] 
+	+ "><td><h3>#" 
+	+ vehicle["ticket_no"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["space"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["color"] 
+	+ " "
+	+ vehicle["style"] 
+	+"</h3></td><td><input class=\"quote-time\" type=\"text\"></td><td class=\"quote-button\"><button>Quote</button></td></tr>"
+      )
+    }
   }
   else if (vehicle["status"] == "transit") {
     $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
     if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
       $('[data-id=\"' + vehicle.id + '\"]').remove();
       $('.transit-vehicles-table').append(
-	  "<tr class=\"transit-vehicle vehicle\" data-id=" 
-	  + vehicle["id"] 
-	  + "><td><h3>#" 
-	  + vehicle["ticket_no"] 
-	  + "</h3></td><td><h3>"
-	  + vehicle["space"] 
-	  + "</h3></td><td><h3>"
-	  + vehicle["color"] 
-	  + " "
-	  + vehicle["style"] 
-	  + "</h3></td><td class=\"return-button\"><button>Return</button></td></tr>"
+	"<tr class=\"transit-vehicle vehicle\" data-id=" 
+	+ vehicle["id"] 
+	+ "><td class=\"ticket-no\"><h3>#" 
+	+ vehicle["ticket_no"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["space"] 
+	+ "</h3></td><td><h3>"
+	+ vehicle["color"] 
+	+ " "
+	+ vehicle["style"] 
+	+ "</h3></td><td class=\"table-space\"></td><td class=\"return-button\"><button>Return</button></td></tr>"
       )
     }
   }
@@ -257,26 +271,26 @@ function fetchVehicles() {
 function renderTransitVehicle(response) {
   var quote = response["quote"];
   var vehicle = response["vehicle"];
-    $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
-    if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
-      $('[data-id=\"' + vehicle.id + '\"]').remove();
-      $('.transit-vehicles-table').append(
-	  "<tr class=\"transit-vehicle vehicle\" data-id=" 
-	  + vehicle["id"] 
-	  + "><td><h3>#" 
-	  + vehicle["ticket_no"] 
-	  + "</h3></td><td><h3>"
-	  + vehicle["space"] 
-	  + "</h3></td><td><h3>"
-	  + vehicle["color"] 
-	  + " "
-	  + vehicle["style"] 
-	  + "</h3></td><td><div class=\"timer\" data-timer-id=\"" + vehicle.id + "\">"
-	  + quote 
-	  + ":00</div></td><td class=\"return-button\"><button>Return</button></td></tr>"
-      )
-      new Timer(vehicle.id);
-    }
+  $('.quote-vehicle[data-id=\"' + vehicle.id + '\"]').remove();
+  if($('.transit-vehicles-table').children('[data-id=\"' + vehicle.id + '\"]').length == 0) {
+    $('[data-id=\"' + vehicle.id + '\"]').remove();
+    $('.transit-vehicles-table').append(
+      "<tr class=\"transit-vehicle vehicle\" data-id=" 
+      + vehicle["id"] 
+      + "><td><h3>#" 
+      + vehicle["ticket_no"] 
+      + "</h3></td><td><h3>"
+      + vehicle["space"] 
+      + "</h3></td><td><h3>"
+      + vehicle["color"] 
+      + " "
+      + vehicle["style"] 
+      + "</h3></td><td><div class=\"timer\" data-timer-id=\"" + vehicle.id + "\">"
+      + quote 
+      + ":00</div></td><td class=\"return-button\"><button>Return</button></td></tr>"
+    )
+    new Timer(vehicle.id);
+  }
 }
 
 var Timer = function() {
