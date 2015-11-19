@@ -18,13 +18,13 @@ locations.first.vehicles = Vehicle.create([
 ]) 
 
 locations[1].vehicles = Vehicle.create([
-  { color: "Orange", style: "Van", ticket_no: 231, space: "3A4", status: "parked"},
-  { color: "Yellow", style: "Sedan", ticket_no: 232, space: "4B12", status: "parked"},
   { color: "Black", style: "Truck", ticket_no: 233, space: "vip", status: "parked" },
   { color: "White", style: "Sedan", ticket_no: 237, space: "3B7", status: "parked" },
 ]) 
  
 locations[2].vehicles = Vehicle.create([
+  { color: "Yellow", style: "Sedan", ticket_no: 232, space: "D1", status: "parked"},
+  { color: "Orange", style: "Van", ticket_no: 231, space: "A4", status: "parked"},
   { color: "Blue", style: "Suv", ticket_no: 521, space: "A8", status: "parked" },
   { color: "Green", style: "Sedan", ticket_no: 522, space: "C4", status: "parked" },
   { color: "Yellow", style: "Coupe", ticket_no: 523, space: "tB3", status: "parked" },
