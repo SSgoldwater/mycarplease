@@ -1,28 +1,18 @@
-== README
+== MyCarPlease
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+MyCarPlease is part mobile web app, part native android app, and part api.  It's combination allows customers to communicate with valets more effeciently to get their vehicle back.  The user experience is as such: 
+ * Valet parks a vehicle, and enters its ticket number and location into the mobile app.
+ * When customer is ready, they visit the mobile website url and enter their phone number.
+ * When they continue to the next step, they are texted a confirmation code to enter along with their location and ticket number.
+ * After the customers request goes through, the valet is noitified by the mobile app and gets to enter a time quote for that customers request. 
+ * The customer then recieves another text message with a quote for how long it will take to recieve their vehicle.
+ * Everyone is happy
 
-Things you may want to cover:
+===The stack: 
+  -Ruby on Rails
+  -PhoneGap
+  -JavaScript/JQuery
+  -HTML5 & CSS3
+  
+  This project needs much work to be production ready, but will soon be live and open source, as my parting gift the valet parking industry :)
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
