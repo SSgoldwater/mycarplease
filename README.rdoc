@@ -16,9 +16,11 @@ The user experience is as such:
 
 ===The stack: 
   -Ruby on Rails
+  -PostgreSQL
   -PhoneGap
   -JavaScript/JQuery
   -HTML5 & CSS3
+  
   
   This project needs much work to be production ready, but will soon be live and open source 
   as my parting gift the valet parking industry :)
