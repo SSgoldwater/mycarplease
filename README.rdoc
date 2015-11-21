@@ -12,7 +12,7 @@ The user experience is as such:
  gets to enter a time quote for that customers request. 
  * The customer then recieves another text message with a quote for how long it will take 
  to recieve their vehicle.
- * Everyone is happy
+ * Everyone is happy!
 
 ===The stack: 
   -Ruby on Rails
