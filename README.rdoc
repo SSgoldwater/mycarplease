@@ -1,7 +1,7 @@
 == MyCarPlease
 
 Built in 11 days for The Turing School of Software and Design, MyCarPlease is part 
-mobile web app, part native android app, and part api.  It's combination 
+mobile web app, part native android app, and part Rails API.  It's combination 
 allows customers to communicate with valets more effeciently to get their vehicle back.  
 The user experience is as such:
 
