@@ -16,12 +16,12 @@ to recieve their vehicle.
 * Everyone is happy!
 
 ===The stack: 
--Ruby on Rails
--PostgreSQL
--PhoneGap
--JavaScript/JQuery
--HTML5 & CSS3
--RSpec
+* Ruby on Rails   
+* PostgreSQL   
+* PhoneGap   
+* JavaScript/JQuery   
+* HTML5 & CSS3   
+* RSpec   
 
 
 This project needs much work to be production ready, but will soon be live and open source 
