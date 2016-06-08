@@ -22,8 +22,3 @@ to recieve their vehicle.
 * JavaScript/JQuery   
 * HTML5 & CSS3   
 * RSpec   
-
-
-This project needs much work to be production ready, but will soon be live and open source 
-as my parting gift the valet parking industry :)
-
